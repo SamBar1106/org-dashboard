@@ -273,6 +273,16 @@ function renderDetails(st) {
     if (lr.counts) row("Counts", Object.entries(lr.counts).map(([k, v]) => `${k.replace(/_/g, " ")}: ${v}`).join(", "));
   } else row("Last run", "no runs in the last 7 days");
   row("Runs (7d)", st.runs.filter((r) => !r.demo).length);
+  // Antigravity (agy) tokens: per-run numbers from the runner's result headers (private repo shared/agy_usage.py).
+  const u = n.agy_usage;
+  if (u && u.last) {
+    const nf = (x) => Number(x || 0).toLocaleString("en-US");
+    const parts = (t) => `in ${nf(t.in)} · out ${nf(t.out)} · thinking ${nf(t.thinking)} · cached ${nf(t.cached)}`;
+    const l = u.last;
+    row("Antigravity last run", `${nf(l.total)} tokens (${parts(l)}); ${l.task}${l.status ? " " + l.status : ""}` +
+      `${l.duration_s != null ? ", " + dur(l.duration_s) : ""}${l.ts ? ", " + fmtFull.format(new Date(l.ts * 1000)) + " CT" : ""}`);
+    row("Antigravity total", `${nf(u.total.total)} tokens over ${u.runs} run${u.runs === 1 ? "" : "s"} (${parts(u.total)})`);
+  } else if (n.id === "executive-hub") row("Antigravity", "no runs yet");
   row("Notes", [...n.notes, ...n.flags].join("; "));
   d.replaceChildren(h("h2", `${n.emoji} ${n.label}`), dl);
 }
