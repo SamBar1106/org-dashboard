@@ -68,7 +68,8 @@ function runsFor(id, includeOldDemo = true) {
 }
 
 function missedOccurrences(node, a, b) {
-  if (!node.schedule || node.status !== "live") return [];
+  // node.schedule is only published when the config schedule approval is on (independent of running state).
+  if (!node.schedule) return [];
   const grace = (S.org.missed_grace_minutes || 60) * 60;
   const { runs, points } = runsFor(node.id, false);
   const starts = runs.map((r) => r.start).concat(points.filter((p) => p.type === "skipped").map((p) => p.ts));
@@ -92,12 +93,24 @@ function nodeState(node) {
   const recentOcc = occurrences(node.schedule, t - 8 * 86400, t).pop();
   const missed = recentOcc ? missedOccurrences(node, recentOcc - 1, t) : [];
   if (missed.length) return { ...info, state: "missed", detail: `missed scheduled run at ${fmtFull.format(new Date(missed[missed.length - 1] * 1000))} CT` };
-  const base = { live: "idle", assistant: "assistant", manual: "manual", disabled: "disabled", planned: "planned" }[node.status] || "idle";
-  return { ...info, state: base, detail: node.status_text };
+  if (node.status === "assistant") return { ...info, state: "assistant", detail: node.status_text };
+  if (node.status === "planned") return { ...info, state: "planned", detail: node.status_text };
+  if (liveNow(node)) return { ...info, state: "live", detail: node.status_text };
+  const la = node.running && node.running.last_active;
+  return { ...info, state: "idle", detail: `idle / not running${la ? ` (last active ${ago(t - la)})` : ""}` };
 }
 
-const STATE_LABEL = { idle: "idle", assistant: "assistant", manual: "on demand", disabled: "disabled", planned: "planned", working: "working", stuck: "STUCK", error: "ERROR", missed: "MISSED" };
-const STATE_BADGE = { working: "⚙️", stuck: "⚠️", error: "⚠️", missed: "⏰", disabled: "🔒", planned: "🚧", idle: "", assistant: "", manual: "" };
+// Live = the node's code is actually running (or was active within the grace window); published by the private
+// repo's shared/running.py. A "recent" live expires on the page itself at live_until, so the lock comes back even
+// before the next snapshot lands. Config approval is separate (approval_text in the side panel).
+function liveNow(node) {
+  if (node.status !== "live") return false;
+  const r = node.running || {};
+  return !(r.state === "recent" && r.live_until && now() > r.live_until);
+}
+
+const STATE_LABEL = { live: "live", idle: "idle · not running", assistant: "assistant", planned: "planned", working: "working", stuck: "STUCK", error: "ERROR", missed: "MISSED" };
+const STATE_BADGE = { working: "⚙️", stuck: "⚠️", error: "⚠️", missed: "⏰", idle: "🔒", planned: "🚧", live: "🟢", assistant: "" };
 
 // ---------- SVG helpers ----------
 function el(tag, attrs = {}, parent) {
@@ -191,7 +204,7 @@ function wrapLabel(t, max) {
 const label = (id) => (S.nodes.get(id) || { label: id }).label;
 
 function renderStates() {
-  const counts = { working: 0, alert: 0, idle: 0, disabled: 0, planned: 0 };
+  const counts = { working: 0, alert: 0, live: 0, idle: 0, other: 0, planned: 0 };
   const states = new Map();
   for (const n of S.org.nodes) {
     const st = nodeState(n); states.set(n.id, st);
@@ -202,7 +215,7 @@ function renderStates() {
     g.querySelector("text.badge").textContent = STATE_BADGE[st.state] || (n.flags.includes("frozen") ? "🧊" : "");
     g.querySelector("title").textContent = `${n.label}: ${STATE_LABEL[st.state]} (${st.detail})`;
     if (st.state === "working") counts.working++; else if (["stuck", "error", "missed"].includes(st.state)) counts.alert++;
-    else if (st.state === "disabled") counts.disabled++; else if (st.state === "planned") counts.planned++; else counts.idle++;
+    else if (st.state === "live") counts.live++; else if (st.state === "idle") counts.idle++; else if (st.state === "planned") counts.planned++; else counts.other++;
   }
   const t = now();
   for (const e of S.org.edges) {
@@ -214,7 +227,7 @@ function renderStates() {
     const cls = `edge${dim ? " dim" : ""}${hot ? " hot" : warm ? " warm" : ""}`;
     if (e._el.getAttribute("class") !== cls) e._el.setAttribute("class", cls);
   }
-  $("counts").textContent = `⚙️ ${counts.working} working · ${counts.alert ? "🔴 " + counts.alert + " alert · " : ""}${counts.idle} ready · ${counts.disabled} disabled · ${counts.planned} planned`;
+  $("counts").textContent = `⚙️ ${counts.working} working · ${counts.alert ? "🔴 " + counts.alert + " alert · " : ""}🟢 ${counts.live} live · 🔒 ${counts.idle} idle · ${counts.planned} planned`;
   $("clock").textContent = `${fmtTime.format(new Date())} CT`;
   if (S.snap) $("snapAge").textContent = `snapshot ${ago(t - S.snap.generated_ts)}`;
   if (S.selected) renderDetails(states.get(S.selected));
@@ -245,7 +258,12 @@ function renderDetails(st) {
   const row = (k, v) => { if (v == null || v === "") return; dl.append(h("dt", k), h("dd", String(v))); };
   row("Division", div ? `${div.num ? div.num + " · " : ""}${div.name}` : n.division);
   row("State", `${STATE_LABEL[st.state]}: ${st.detail}`);
-  row("Config", n.status_text);
+  row("Status", n.status === "live" && !liveNow(n) ? "Idle / not running" : n.status_text);
+  const r = n.running || {};
+  if (r.state === "running" && r.since) row("Running since", `${fmtFull.format(new Date(r.since * 1000))} CT`);
+  if (r.last_active && r.state !== "running") row("Last active", `${fmtFull.format(new Date(r.last_active * 1000))} CT (${ago(now() - r.last_active)})`);
+  if (r.state === "recent" && r.live_until && liveNow(n)) row("Live until", `${fmtTime.format(new Date(r.live_until * 1000))} CT unless it runs again`);
+  row("Approval", n.approval_text);
   row("Schedule", n.schedule_text ? `${n.schedule_text}` : "none");
   row("Stuck after", `${n.expected_minutes} min`);
   const lr = st.last;
@@ -330,7 +348,7 @@ function renderTimeline() {
 }
 
 function renderLegend() {
-  const items = [["working", "#34d399"], ["idle (live)", "#60a5fa"], ["assistant", "#a78bfa"], ["on demand", "#2dd4bf"], ["disabled", "#6b7280"], ["planned", "#374151"], ["stuck / error / missed", "#f43f5e"]];
+  const items = [["working", "#34d399"], ["🟢 live (code running / just ran)", "#60a5fa"], ["assistant", "#a78bfa"], ["🔒 idle / not running", "#6b7280"], ["planned", "#374151"], ["stuck / error / missed", "#f43f5e"]];
   $("legend").replaceChildren(...items.map(([t, c]) => { const s = h("span"); const i = h("i"); i.style.borderColor = c; s.append(i, document.createTextNode(t)); return s; }), h("span", "🧊 frozen · ◆ handoff lights the edge"));
 }
 

@@ -8,7 +8,8 @@ Public-by-link floor plan of Samuel Barrios's seven-division bot organization. L
 
 ## What you see
 - An office floor plan: one room per division (plus a Shared Tools Lab), each bot/assistant as an emoji avatar.
-- Distinct states: working (green pulse), idle (blue), assistant (purple), on-demand (teal dashed), disabled (grey + lock), planned (faded dashed), stuck/error/missed (red pulse). Frozen tools get a 🧊.
+- Distinct states: working (green pulse), 🟢 live (blue: the code is actually running, or ran within the grace window, default 10 min), 🔒 idle / not running (grey + lock), assistant (purple), planned (faded dashed), stuck/error/missed (red pulse). Frozen tools get a 🧊.
+- Live vs lock comes from whether the node's code is ACTUALLY running (published by the private repo's `shared/running.py`), not from config flags. The config approval gate (e.g. "schedule approval: off") is shown as its own row in the side panel.
 - Edges light up and a packet travels when a handoff event fires (e.g. QC → ED daily report).
 - Activity feed of recent events and a selectable timeline of which bots were working.
 

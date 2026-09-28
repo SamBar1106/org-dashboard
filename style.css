@@ -23,10 +23,10 @@ main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px;padding:12p
 .node text.st{font-size:10px;text-anchor:middle;pointer-events:none;letter-spacing:.04em;text-transform:uppercase}
 .node text.badge{font-size:14px;pointer-events:none}
 .node .ring{fill:none;stroke-width:3;opacity:0}
-.s-idle circle.body{fill:#0f2a3f;stroke:var(--blue)}.s-idle text.st{fill:var(--blue)}
+.s-live circle.body{fill:#0f2a3f;stroke:var(--blue)}.s-live text.st{fill:var(--blue)}
 .s-assistant circle.body{fill:#241a44;stroke:var(--purple)}.s-assistant text.st{fill:var(--purple)}
 .s-manual circle.body{fill:#0d2f2c;stroke:var(--teal);stroke-dasharray:6 4}.s-manual text.st{fill:var(--teal)}
-.s-disabled circle.body{fill:#1f2430;stroke:var(--grey)}.s-disabled text.emo{filter:grayscale(1);opacity:.55}.s-disabled text.st{fill:var(--grey)}
+.s-idle circle.body{fill:#1f2430;stroke:var(--grey)}.s-idle text.emo{filter:grayscale(1);opacity:.55}.s-idle text.st{fill:var(--grey)}
 .s-planned{opacity:.42}.s-planned circle.body{fill:none;stroke:var(--grey);stroke-dasharray:3 5}.s-planned text.emo{filter:grayscale(1)}.s-planned text.st{fill:var(--grey)}
 .s-working circle.body{fill:#0b3a2a;stroke:var(--green)}.s-working text.st{fill:var(--green)}
 .s-working .ring{stroke:var(--green);animation:ping 1.6s ease-out infinite}
