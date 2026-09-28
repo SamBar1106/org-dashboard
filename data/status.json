@@ -1,7 +1,7 @@
 {
  "v": 1,
- "generated_ts": 1790604789,
- "snapshot_id": "3316c535",
+ "generated_ts": 1790631041,
+ "snapshot_id": "e171b9ad",
  "window_days": 7,
  "events": [
   {
@@ -30,11 +30,19 @@
   },
   {
    "v": 1,
-   "ts": 1790550431,
+   "ts": 1790589753,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "lc58cb9a",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790626186,
    "bot": "quality-control",
    "type": "finish",
    "run_id": "l913b291",
-   "duration_s": 4,
+   "duration_s": 75759,
    "counts": {
     "open_tickets": 27,
     "new_tickets": 22,
@@ -44,19 +52,11 @@
   },
   {
    "v": 1,
-   "ts": 1790589753,
-   "bot": "quality-control",
-   "type": "start",
-   "run_id": "lc58cb9a",
-   "step": "run"
-  },
-  {
-   "v": 1,
-   "ts": 1790589760,
+   "ts": 1790626188,
    "bot": "quality-control",
    "type": "finish",
    "run_id": "lc58cb9a",
-   "duration_s": 7,
+   "duration_s": 36435,
    "counts": {
     "open_tickets": 18,
     "new_tickets": 0,
