@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://ntfy.sh; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+<title>Division One · Live Org</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="brand"><span class="logo">🏢</span><div><h1>Division One · Live Org</h1><div id="subtitle" class="muted">Samuel Barrios Tax &amp; Services bots</div></div></div>
+  <div class="chips">
+    <span id="conn" class="chip conn-off" title="Live relay connection">● connecting…</span>
+    <span id="snapAge" class="chip" title="Last published snapshot">snapshot —</span>
+    <span id="counts" class="chip"></span>
+    <span id="clock" class="chip" title="Central Time"></span>
+  </div>
+</header>
+<div id="banner" class="banner hidden"></div>
+<main>
+  <section class="floor card">
+    <svg id="floor" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Office floor plan of divisions and bots"></svg>
+    <div class="legend" id="legend"></div>
+  </section>
+  <aside class="card side">
+    <div id="details"><h2>Details</h2><p class="muted">Tap a bot to see its status, schedule and last run.</p></div>
+    <h2>Activity feed</h2>
+    <ol id="feed" class="feed"></ol>
+  </aside>
+  <section class="card timeline-card">
+    <div class="tl-head"><h2>Activity timeline</h2>
+      <div class="seg" id="windowSel"><button data-w="3600">1h</button><button data-w="86400" class="on">24h</button><button data-w="604800">7d</button></div>
+    </div>
+    <div id="timelineWrap"><svg id="timeline"></svg></div>
+    <p class="muted small">Green = working, red = error/stuck, ✕ = missed scheduled run, purple hatched = labelled demo events, ◆ = handoff. Times in CT.</p>
+  </section>
+</main>
+<footer class="muted small">Public-by-link view: bot and division names, states, counts and timestamps only; never client data. Live events via ntfy.sh relay; snapshot from the private repo.</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

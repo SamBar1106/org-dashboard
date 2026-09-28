@@ -1,0 +1,468 @@
+{
+ "v": 1,
+ "title": "Samuel Barrios Tax & Services: bot organization",
+ "tz": "America/Chicago",
+ "divisions": [
+  {
+   "id": "bot-development",
+   "num": 1,
+   "name": "Bot Development",
+   "icon": "🛠️",
+   "purpose": "Builds and maintains every bot"
+  },
+  {
+   "id": "sales",
+   "num": 2,
+   "name": "Sales",
+   "icon": "🤝",
+   "purpose": "Tax-prep lead intake and client profiles"
+  },
+  {
+   "id": "treasury",
+   "num": 3,
+   "name": "Treasury",
+   "icon": "💰",
+   "purpose": "Income, expenses and budget (read-only)"
+  },
+  {
+   "id": "production",
+   "num": 4,
+   "name": "Production",
+   "icon": "🏭",
+   "purpose": "Tax prep and website building"
+  },
+  {
+   "id": "quality-control",
+   "num": 5,
+   "name": "Quality Control",
+   "icon": "🔍",
+   "purpose": "Complaints, refund checks, Odoo tickets"
+  },
+  {
+   "id": "brand-marketing",
+   "num": 6,
+   "name": "Brand & Marketing",
+   "icon": "📣",
+   "purpose": "Content, research, stories, referrals"
+  },
+  {
+   "id": "executive",
+   "num": 7,
+   "name": "Executive (hub)",
+   "icon": "🏛️",
+   "purpose": "Tracks all divisions, strategy, Monday brief"
+  },
+  {
+   "id": "shared",
+   "num": 0,
+   "name": "Shared Tools Lab",
+   "icon": "🧪",
+   "purpose": "Common libraries every bot reuses"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "executive-hub",
+   "label": "ED (Executive assistant)",
+   "emoji": "🧠",
+   "division": "executive",
+   "kind": "assistant",
+   "status": "assistant",
+   "status_text": "Assistant (always on)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "Grok assistant; triggers routines"
+   ],
+   "flags": []
+  },
+  {
+   "id": "executive",
+   "label": "Executive brief bot",
+   "emoji": "📋",
+   "division": "executive",
+   "kind": "bot",
+   "status": "planned",
+   "status_text": "Planned, not built",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "planned schedule: Monday 7:00 AM"
+   ],
+   "flags": []
+  },
+  {
+   "id": "teammate-tax-ic",
+   "label": "Tax I/C",
+   "emoji": "🧾",
+   "division": "executive",
+   "kind": "teammate",
+   "status": "assistant",
+   "status_text": "Assistant (always on)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "teammate assistant (no heartbeat hook yet)"
+   ],
+   "flags": []
+  },
+  {
+   "id": "teammate-hes",
+   "label": "HES",
+   "emoji": "🧑‍💼",
+   "division": "executive",
+   "kind": "teammate",
+   "status": "assistant",
+   "status_text": "Assistant (always on)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "teammate assistant (no heartbeat hook yet)"
+   ],
+   "flags": []
+  },
+  {
+   "id": "team-tax-accounting",
+   "label": "Team Tax And Accounting",
+   "emoji": "👥",
+   "division": "executive",
+   "kind": "teammate",
+   "status": "assistant",
+   "status_text": "Assistant (always on)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "teammate assistant (no heartbeat hook yet)"
+   ],
+   "flags": []
+  },
+  {
+   "id": "bot-development",
+   "label": "Bot Dev bot",
+   "emoji": "🤖",
+   "division": "bot-development",
+   "kind": "bot",
+   "status": "planned",
+   "status_text": "Planned, not built",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "schedule TBD"
+   ],
+   "flags": []
+  },
+  {
+   "id": "sales",
+   "label": "Sales bot",
+   "emoji": "💬",
+   "division": "sales",
+   "kind": "bot",
+   "status": "disabled",
+   "status_text": "Built, disabled (approval gate off)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 20,
+   "notes": [
+    "schedule TBD"
+   ],
+   "flags": []
+  },
+  {
+   "id": "treasury",
+   "label": "Treasury bot",
+   "emoji": "🏦",
+   "division": "treasury",
+   "kind": "bot",
+   "status": "planned",
+   "status_text": "Planned, not built",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "schedule TBD"
+   ],
+   "flags": []
+  },
+  {
+   "id": "production",
+   "label": "Production bot",
+   "emoji": "⚙️",
+   "division": "production",
+   "kind": "bot",
+   "status": "planned",
+   "status_text": "Planned, not built",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "schedule TBD"
+   ],
+   "flags": []
+  },
+  {
+   "id": "tax-expert",
+   "label": "Tax Expert",
+   "emoji": "🎓",
+   "division": "production",
+   "kind": "library",
+   "status": "disabled",
+   "status_text": "Built, disabled (approval gate off)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "owner: Division 4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "tax-engine",
+   "label": "Tax Engine",
+   "emoji": "🧮",
+   "division": "production",
+   "kind": "library",
+   "status": "disabled",
+   "status_text": "Built, disabled (approval gate off)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "owner: Division 4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "refund-workflow",
+   "label": "Refund workflow",
+   "emoji": "🔁",
+   "division": "production",
+   "kind": "workflow",
+   "status": "disabled",
+   "status_text": "Built, disabled (approval gate off)",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 20,
+   "notes": [
+    "on-demand trigger from Sales / QC"
+   ],
+   "flags": []
+  },
+  {
+   "id": "quality-control",
+   "label": "QC bot",
+   "emoji": "🕵️",
+   "division": "quality-control",
+   "kind": "bot",
+   "status": "live",
+   "status_text": "Live",
+   "schedule_text": "daily 4:54 AM CT",
+   "schedule": {
+    "kind": "daily",
+    "time": "04:54",
+    "tz": "America/Chicago"
+   },
+   "expected_minutes": 15,
+   "notes": [
+    "runs via scripts/run_bot.sh"
+   ],
+   "flags": []
+  },
+  {
+   "id": "brand-marketing",
+   "label": "Brand bot",
+   "emoji": "🎨",
+   "division": "brand-marketing",
+   "kind": "bot",
+   "status": "planned",
+   "status_text": "Planned, not built",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "schedule TBD"
+   ],
+   "flags": []
+  },
+  {
+   "id": "doc-parser",
+   "label": "Doc parser",
+   "emoji": "📄",
+   "division": "shared",
+   "kind": "library",
+   "status": "manual",
+   "status_text": "Built, runs on demand",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "shared reader for statements, stubs, W-2s"
+   ],
+   "flags": [
+    "frozen"
+   ]
+  },
+  {
+   "id": "intake",
+   "label": "Client doc intake",
+   "emoji": "📥",
+   "division": "shared",
+   "kind": "workflow",
+   "status": "manual",
+   "status_text": "Built, runs on demand",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 20,
+   "notes": [
+    "automated use off; manual runs only"
+   ],
+   "flags": []
+  },
+  {
+   "id": "pnl-builder",
+   "label": "P&L builder",
+   "emoji": "📊",
+   "division": "shared",
+   "kind": "library",
+   "status": "manual",
+   "status_text": "Built, runs on demand",
+   "schedule_text": null,
+   "schedule": null,
+   "expected_minutes": 30,
+   "notes": [
+    "part of doc parser"
+   ],
+   "flags": []
+  }
+ ],
+ "edges": [
+  {
+   "from": "quality-control",
+   "to": "executive-hub",
+   "label": "daily report"
+  },
+  {
+   "from": "sales",
+   "to": "executive-hub",
+   "label": "ready-to-close list"
+  },
+  {
+   "from": "sales",
+   "to": "refund-workflow",
+   "label": "refund request"
+  },
+  {
+   "from": "quality-control",
+   "to": "refund-workflow",
+   "label": "refund request"
+  },
+  {
+   "from": "sales",
+   "to": "doc-parser",
+   "label": "classify documents"
+  },
+  {
+   "from": "refund-workflow",
+   "to": "doc-parser",
+   "label": "parse w-2"
+  },
+  {
+   "from": "refund-workflow",
+   "to": "tax-expert",
+   "label": "draft 1040"
+  },
+  {
+   "from": "tax-expert",
+   "to": "tax-engine",
+   "label": "compute return"
+  },
+  {
+   "from": "intake",
+   "to": "doc-parser",
+   "label": "parse documents"
+  },
+  {
+   "from": "doc-parser",
+   "to": "pnl-builder",
+   "label": "build p&l"
+  },
+  {
+   "from": "executive",
+   "to": "executive-hub",
+   "label": "monday brief"
+  },
+  {
+   "from": "treasury",
+   "to": "executive-hub",
+   "label": "weekly summary"
+  },
+  {
+   "from": "production",
+   "to": "executive-hub",
+   "label": "weekly summary"
+  },
+  {
+   "from": "brand-marketing",
+   "to": "executive-hub",
+   "label": "weekly summary"
+  },
+  {
+   "from": "bot-development",
+   "to": "executive-hub",
+   "label": "build status"
+  },
+  {
+   "from": "teammate-tax-ic",
+   "to": "executive-hub",
+   "label": "coordination"
+  },
+  {
+   "from": "teammate-hes",
+   "to": "executive-hub",
+   "label": "coordination"
+  },
+  {
+   "from": "team-tax-accounting",
+   "to": "executive-hub",
+   "label": "coordination"
+  }
+ ],
+ "steps": [
+  "build p&l",
+  "build profile",
+  "build status",
+  "classify documents",
+  "compute return",
+  "coordination",
+  "daily report",
+  "demo",
+  "disabled",
+  "draft 1040",
+  "file documents",
+  "intake",
+  "monday brief",
+  "no main.py",
+  "odoo read",
+  "odoo write",
+  "parse documents",
+  "parse w-2",
+  "pull changes",
+  "ready-to-close list",
+  "refund request",
+  "refund status check",
+  "report",
+  "routine",
+  "run",
+  "run summary",
+  "snapshot",
+  "ticket check",
+  "weekly summary"
+ ],
+ "missed_grace_minutes": 60,
+ "window_days": 7
+}
