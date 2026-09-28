@@ -273,9 +273,7 @@
    "notes": [
     "automated use off; manual runs only"
    ],
-   "flags": [
-    "in-development"
-   ]
+   "flags": []
   },
   {
    "id": "pnl-builder",
