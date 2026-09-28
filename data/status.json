@@ -1,71 +1,8 @@
 {
  "v": 1,
- "generated_ts": 1790632095,
- "snapshot_id": "8af2fd70",
+ "generated_ts": 1790636358,
+ "snapshot_id": "42ed065f",
  "window_days": 7,
- "events": [
-  {
-   "v": 1,
-   "ts": 1790547680,
-   "bot": "quality-control",
-   "type": "skipped",
-   "run_id": "lb55a5ac",
-   "step": "disabled"
-  },
-  {
-   "v": 1,
-   "ts": 1790547689,
-   "bot": "quality-control",
-   "type": "skipped",
-   "run_id": "l2c1fd10",
-   "step": "disabled"
-  },
-  {
-   "v": 1,
-   "ts": 1790550427,
-   "bot": "quality-control",
-   "type": "start",
-   "run_id": "l913b291",
-   "step": "run"
-  },
-  {
-   "v": 1,
-   "ts": 1790589753,
-   "bot": "quality-control",
-   "type": "start",
-   "run_id": "lc58cb9a",
-   "step": "run"
-  },
-  {
-   "v": 1,
-   "ts": 1790626186,
-   "bot": "quality-control",
-   "type": "finish",
-   "run_id": "l913b291",
-   "duration_s": 75759,
-   "counts": {
-    "open_tickets": 27,
-    "new_tickets": 22,
-    "stage_changes": 0,
-    "closed_tickets": 2
-   }
-  },
-  {
-   "v": 1,
-   "ts": 1790626188,
-   "bot": "quality-control",
-   "type": "finish",
-   "run_id": "lc58cb9a",
-   "duration_s": 36435,
-   "counts": {
-    "open_tickets": 18,
-    "new_tickets": 0,
-    "stage_changes": 0,
-    "closed_tickets": 9,
-    "tickets_created": 0,
-    "skipped": 1
-   }
-  }
- ],
+ "events": [],
  "note": "Public-by-link snapshot: bot names, states, generic steps, counts and timestamps only."
 }
