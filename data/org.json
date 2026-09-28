@@ -124,18 +124,18 @@
    "emoji": "💬",
    "division": "sales",
    "kind": "bot",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: active within the last 0.5 min",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": null,
-    "live_until": null
+    "last_active": 1790604637,
+    "live_until": 1790604667
    },
    "expected_minutes": 20,
    "notes": [
@@ -188,18 +188,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: active within the last 10 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
     "last_active": 1790604521,
-    "live_until": 1790605121
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
@@ -213,18 +213,18 @@
    "emoji": "🧮",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: active within the last 10 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
     "last_active": 1790604521,
-    "live_until": 1790605121
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
@@ -493,5 +493,5 @@
  ],
  "missed_grace_minutes": 60,
  "window_days": 7,
- "running_grace_minutes": 10.0
+ "running_grace_minutes": 0.5
 }
