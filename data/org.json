@@ -124,18 +124,18 @@
    "emoji": "💬",
    "division": "sales",
    "kind": "bot",
-   "status": "live",
-   "status_text": "Live: active within the last 0.5 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
     "last_active": 1790604637,
-    "live_until": 1790604667
+    "live_until": null
    },
    "expected_minutes": 20,
    "notes": [
