@@ -169,8 +169,7 @@
    "schedule": null,
    "expected_minutes": 30,
    "notes": [
-    "owner: Division 4",
-    "self-update verify 1790602437"
+    "owner: Division 4"
    ],
    "flags": []
   },
