@@ -1,6 +1,6 @@
 // Division One live org dashboard. No build step, no dependencies.
 // Data: data/org.json + data/status.json (snapshot published from the private repo) + live events from the
-// ntfy.sh relay (EventSource, replaying the last 12h). The relay topic comes from the share link (#k=...).
+// ntfy.sh relay (EventSource, replaying the last 12h, auto-reconnect with backoff). A sanitized "snapshot" event from the\n// publisher triggers an immediate cache-busted refetch of org.json + status.json (60s fallback poll). Topic from #k=...
 import { sanitizeEvent, eventKey } from "./sanitize.js";
 
 const TZ = "America/Chicago";
@@ -9,7 +9,7 @@ const SVGNS = "http://www.w3.org/2000/svg";
 const $ = (id) => document.getElementById(id);
 
 const S = {
-  org: null, snap: null, nodes: new Map(), nodeIds: new Set(), steps: new Set(),
+  org: null, orgText: "", snap: null, nodes: new Map(), nodeIds: new Set(), steps: new Set(),
   events: new Map(), win: 86400, selected: null, hot: new Map(), topic: null, es: null, conn: "off",
   pos: new Map(), liveKeys: new Set(),
 };
@@ -342,7 +342,9 @@ function addEvent(raw, live) {
   if (live) {
     if (now() - e.ts < 60) S.liveKeys.add(k);
     if (e.type === "handoff" && now() - e.ts < 60) flashEdge(e.bot, e.to, e.step);
-    if (e.type === "snapshot") { setTimeout(loadSnapshot, 45000); setTimeout(loadSnapshot, 120000); }
+    // Publisher posts a sanitized "snapshot" event right after pushing org.json/status.json.
+    // Refetch immediately (cache-busted) so structure/status changes land without a page reload.
+    if (e.type === "snapshot") awaitSnapshot(e.run_id);
   }
   return true;
 }
@@ -353,14 +355,67 @@ async function fetchJSON(path) {
   return r.json();
 }
 
+let snapTimer = null, snapInFlight = null, esBackoff = 1000;
+function scheduleSnapshot(delayMs = 0) {
+  if (snapTimer) clearTimeout(snapTimer);
+  snapTimer = setTimeout(() => { snapTimer = null; loadSnapshot(); }, delayMs);
+}
+
+// GitHub Pages takes ~30-90s to deploy a push, so keep refetching until status.json carries the announced id.
+const SNAP_RETRY_MS = [0, 15000, 30000, 45000, 60000, 90000, 120000, 180000];
+let snapWaitToken = 0;
+function awaitSnapshot(id) {
+  const token = ++snapWaitToken;
+  const tick = async (i) => {
+    if (token !== snapWaitToken) return;
+    await loadSnapshot();
+    if (!id || (S.snap && S.snap.snapshot_id === id) || i + 1 >= SNAP_RETRY_MS.length) return;
+    setTimeout(() => tick(i + 1), SNAP_RETRY_MS[i + 1] - SNAP_RETRY_MS[i]);
+  };
+  tick(0);
+}
+
+function applyOrg(org, orgText) {
+  const prevSel = S.selected;
+  S.org = org;
+  S.orgText = orgText;
+  S.nodes = new Map();
+  S.nodeIds = new Set();
+  S.org.nodes.forEach((n) => { S.nodes.set(n.id, n); S.nodeIds.add(n.id); });
+  S.steps = new Set(S.org.steps || []);
+  // Drop events for nodes that no longer exist (e.g. removed from the org) so the feed never breaks.
+  for (const [k, e] of S.events) if (!S.nodeIds.has(e.bot) || (e.to && !S.nodeIds.has(e.to))) S.events.delete(k);
+  if (prevSel && !S.nodeIds.has(prevSel)) {
+    S.selected = null;
+    $("details").replaceChildren(h("h2", "Details"), h("p", "Tap a bot to see its status, schedule and last run.", "muted"));
+  }
+  $("subtitle").textContent = S.org.title;
+  layout(); drawFloor(); renderLegend();
+}
+
 async function loadSnapshot() {
-  try {
-    const snap = await fetchJSON("data/status.json");
-    if (S.snap && snap.generated_ts <= S.snap.generated_ts) return;
-    S.snap = snap;
-    for (const e of snap.events || []) addEvent(e, false);
-    refresh();
-  } catch (err) { console.warn(err); }
+  if (snapInFlight) return snapInFlight;
+  snapInFlight = (async () => {
+    try {
+      const [orgRes, snapRes] = await Promise.all([
+        fetch(`data/org.json?t=${Date.now()}`, { cache: "no-store" }),
+        fetch(`data/status.json?t=${Date.now()}`, { cache: "no-store" }),
+      ]);
+      if (!orgRes.ok || !snapRes.ok) throw new Error(`snapshot fetch ${orgRes.status}/${snapRes.status}`);
+      const orgText = await orgRes.text();
+      const snap = JSON.parse(await snapRes.text());
+      const orgChanged = orgText !== S.orgText;
+      const snapNewer = !S.snap || snap.generated_ts > S.snap.generated_ts || (snap.snapshot_id && snap.snapshot_id !== S.snap.snapshot_id && snap.generated_ts >= S.snap.generated_ts);
+      if (orgChanged) applyOrg(JSON.parse(orgText), orgText);
+      if (snapNewer) {
+        S.snap = snap;
+        for (const e of snap.events || []) addEvent(e, false);
+      }
+      if (orgChanged || snapNewer) refresh();
+    } catch (err) { console.warn(err); }
+    finally { snapInFlight = null; }
+  })();
+  return snapInFlight;
 }
 
 function connect() {
@@ -374,21 +429,29 @@ function connect() {
       const msg = JSON.parse(m.data);
       if (msg.event && msg.event !== "message") return;
       setConn("live");
+      esBackoff = 1000;
       if (addEvent(JSON.parse(msg.message), true)) refresh();
     } catch (_) {}
   };
   es.onmessage = onMsg;
-  es.addEventListener("open", () => setConn("live"));
+  es.addEventListener("open", () => { setConn("live"); esBackoff = 1000; });
   es.addEventListener("keepalive", () => setConn("live"));
-  es.onopen = () => setConn("live");
-  es.onerror = () => setConn("off");
+  es.onopen = () => { setConn("live"); esBackoff = 1000; };
+  es.onerror = () => {
+    setConn("off");
+    try { es.close(); } catch (_) {}
+    S.es = null;
+    const wait = esBackoff;
+    esBackoff = Math.min(esBackoff * 2, 30000);
+    setTimeout(() => { if (S.topic && (!S.es || S.es.readyState === 2)) connect(); }, wait);
+  };
 }
 function setConn(c) {
   S.conn = c; const n = $("conn");
   n.className = `chip conn-${c}`;
   n.textContent = c === "live" ? "● LIVE" : c === "off" ? "● reconnecting…" : "● snapshot only";
   $("banner").classList.toggle("hidden", c !== "none");
-  if (c === "none") $("banner").textContent = "Live updates need the full share link (it ends with #k=…). Showing the published snapshot; it refreshes every few minutes.";
+  if (c === "none") $("banner").textContent = "Live updates need the full share link (it ends with #k=…). Showing the published snapshot; it refreshes about every minute.";
 }
 
 let pending = null;
@@ -398,11 +461,7 @@ async function main() {
   const m = /[#&]k=([A-Za-z0-9_-]{16,64})/.exec(location.hash);
   if (m) { S.topic = m[1]; try { localStorage.setItem("d1-topic", S.topic); } catch (_) {} }
   else { try { S.topic = localStorage.getItem("d1-topic"); } catch (_) {} }
-  S.org = await fetchJSON("data/org.json");
-  S.org.nodes.forEach((n) => { S.nodes.set(n.id, n); S.nodeIds.add(n.id); });
-  S.steps = new Set(S.org.steps || []);
-  $("subtitle").textContent = S.org.title;
-  layout(); drawFloor(); renderLegend();
+  { const r = await fetch(`data/org.json?t=${Date.now()}`, { cache: "no-store" }); if (!r.ok) throw new Error(`data/org.json: ${r.status}`); const t = await r.text(); applyOrg(JSON.parse(t), t); }
   await loadSnapshot();
   refresh();
   connect();
@@ -411,9 +470,15 @@ async function main() {
   }));
   setInterval(renderStates, 1000);
   setInterval(renderTimeline, 15000);
-  setInterval(loadSnapshot, 180000);
+  // Fallback poll (~60s) in case the relay drops a snapshot event.
+  setInterval(() => scheduleSnapshot(0), 60000);
   window.addEventListener("resize", () => renderTimeline());
   window.addEventListener("hashchange", () => location.reload());
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) { loadSnapshot(); if (S.topic && (!S.es || S.es.readyState === 2)) connect(); } });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      scheduleSnapshot(0);
+      if (S.topic && (!S.es || S.es.readyState === 2)) connect();
+    }
+  });
 }
 main().catch((err) => { const b = $("banner"); b.classList.remove("hidden"); b.textContent = `Could not load the dashboard data (${err.message}).`; });

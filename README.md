@@ -4,7 +4,7 @@ Public-by-link floor plan of Samuel Barrios's seven-division bot organization. L
 
 **Live URL:** https://sambar1106.github.io/org-dashboard/
 
-> The full share link ends with `#k=<topic>` so the browser can open the live relay. Without it the page still shows the published snapshot and refreshes every few minutes.
+> The full share link ends with `#k=<topic>` so the browser can open the live relay. Without it the page still shows the published snapshot and refreshes about every minute; with the link, a snapshot event from the publisher refetches it within seconds of Pages deploying.
 
 ## What you see
 - An office floor plan: one room per division (plus a Shared Tools Lab), each bot/assistant as an emoji avatar.
