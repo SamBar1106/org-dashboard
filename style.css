@@ -6,10 +6,10 @@ header{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:12px;white-space:nowrap}
 .conn-live{color:var(--green);border-color:#065f46}.conn-off{color:var(--amber)}.conn-none{color:var(--muted)}
 .banner{margin:8px 16px 0;padding:8px 12px;border-radius:8px;background:#3b2a0a;border:1px solid #7c5a10;color:#fde68a;font-size:13px}
-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px;padding:12px 16px}
+main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px;padding:12px 16px;align-items:start}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
 .floor{min-width:0}#floor{width:100%;height:auto;display:block}
-.side{max-height:calc(100vh - 110px);overflow:auto}.timeline-card{grid-column:1 / -1}
+.side{max-height:min(calc(100vh - 110px),860px);overflow:auto}.timeline-card{grid-column:1 / -1}
 @media (max-width:900px){main{grid-template-columns:1fr;padding:8px}.side{max-height:none}}
 .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--muted);padding:6px 4px 0}.legend span{display:inline-flex;gap:5px;align-items:center}
 .legend i{width:12px;height:12px;border-radius:50%;display:inline-block;border:2px solid}

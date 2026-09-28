@@ -266,7 +266,8 @@ function renderFeed() {
   for (const e of list) {
     const day = fmtDay.format(new Date(e.ts * 1000));
     if (day !== lastDay) { const li = h("li", day, "muted small"); ol.append(li); lastDay = day; }
-    const li = h("li"); if (S.liveKeys.has(eventKey(e))) li.classList.add("new");
+    const li = h("li"); const k = eventKey(e);
+    if (S.liveKeys.has(k)) { li.classList.add("new"); S.liveKeys.delete(k); }
     const n = S.nodes.get(e.bot);
     li.append(h("span", fmtTime.format(new Date(e.ts * 1000)), "t"), h("span", `${n.emoji} ${n.label}`), h("span", e.type, `tag ${e.type}`));
     if (e.to) li.append(h("span", `→ ${label(e.to)}`));
@@ -339,7 +340,7 @@ function addEvent(raw, live) {
   const k = eventKey(e); if (S.events.has(k)) return false;
   S.events.set(k, e);
   if (live) {
-    S.liveKeys.add(k);
+    if (now() - e.ts < 60) S.liveKeys.add(k);
     if (e.type === "handoff" && now() - e.ts < 60) flashEdge(e.bot, e.to, e.step);
     if (e.type === "snapshot") { setTimeout(loadSnapshot, 45000); setTimeout(loadSnapshot, 120000); }
   }
