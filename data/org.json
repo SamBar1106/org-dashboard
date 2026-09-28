@@ -215,18 +215,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
     "last_active": 1790636357,
-    "live_until": 1790636537
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
@@ -288,18 +288,18 @@
    "emoji": "🧮",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
     "last_active": 1790636357,
-    "live_until": 1790636537
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
