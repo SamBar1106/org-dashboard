@@ -163,8 +163,8 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "disabled",
-   "status_text": "Built, disabled (approval gate off)",
+   "status": "live",
+   "status_text": "Live",
    "schedule_text": null,
    "schedule": null,
    "expected_minutes": 30,
@@ -179,8 +179,8 @@
    "emoji": "🧮",
    "division": "production",
    "kind": "library",
-   "status": "disabled",
-   "status_text": "Built, disabled (approval gate off)",
+   "status": "live",
+   "status_text": "Live",
    "schedule_text": null,
    "schedule": null,
    "expected_minutes": 30,
@@ -195,8 +195,8 @@
    "emoji": "🔁",
    "division": "production",
    "kind": "workflow",
-   "status": "disabled",
-   "status_text": "Built, disabled (approval gate off)",
+   "status": "live",
+   "status_text": "Live",
    "schedule_text": null,
    "schedule": null,
    "expected_minutes": 20,
@@ -273,7 +273,9 @@
    "notes": [
     "automated use off; manual runs only"
    ],
-   "flags": []
+   "flags": [
+    "in-development"
+   ]
   },
   {
    "id": "pnl-builder",
