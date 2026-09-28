@@ -78,7 +78,29 @@
    "notes": [
     "Grok assistant; triggers routines"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": {
+    "runs": 1,
+    "last": {
+     "task": "TASK-002",
+     "status": "NO_CHANGES",
+     "ts": 1790630711,
+     "duration_s": 191.4,
+     "in": 149587,
+     "out": 58937,
+     "thinking": 57935,
+     "cached": 302056,
+     "total": 208524
+    },
+    "total": {
+     "in": 149587,
+     "out": 58937,
+     "thinking": 57935,
+     "cached": 302056,
+     "total": 208524,
+     "duration_s": 191.4
+    }
+   }
   },
   {
    "id": "executive",
@@ -97,7 +119,8 @@
    "notes": [
     "planned schedule: Monday 7:00 AM"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "bot-development",
@@ -116,7 +139,8 @@
    "notes": [
     "schedule TBD"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "sales",
@@ -142,7 +166,8 @@
     "manual / dry runs only until approved",
     "schedule TBD"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "treasury",
@@ -161,7 +186,8 @@
    "notes": [
     "schedule TBD"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "production",
@@ -180,7 +206,8 @@
    "notes": [
     "schedule TBD"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "tax-expert",
@@ -205,7 +232,8 @@
    "notes": [
     "owner: Division 4"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "tax-engine",
@@ -230,7 +258,8 @@
    "notes": [
     "owner: Division 4"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "refund-workflow",
@@ -255,7 +284,8 @@
    "notes": [
     "on-demand trigger from Sales / QC"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "quality-control",
@@ -284,7 +314,8 @@
    "notes": [
     "runs via scripts/run_bot.sh"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "brand-marketing",
@@ -303,7 +334,8 @@
    "notes": [
     "schedule TBD"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "doc-parser",
@@ -330,7 +362,8 @@
    ],
    "flags": [
     "frozen"
-   ]
+   ],
+   "agy_usage": null
   },
   {
    "id": "intake",
@@ -355,7 +388,8 @@
    "notes": [
     "automated use off; manual runs only"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   },
   {
    "id": "pnl-builder",
@@ -380,7 +414,8 @@
    "notes": [
     "part of doc parser"
    ],
-   "flags": []
+   "flags": [],
+   "agy_usage": null
   }
  ],
  "edges": [
@@ -493,5 +528,6 @@
  ],
  "missed_grace_minutes": 60,
  "window_days": 7,
- "running_grace_minutes": 0.5
+ "running_grace_minutes": 0.5,
+ "running_hold_seconds": 180.0
 }
