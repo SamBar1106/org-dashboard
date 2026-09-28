@@ -188,18 +188,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: active within the last 10 min",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": null,
-    "live_until": null
+    "last_active": 1790604521,
+    "live_until": 1790605121
    },
    "expected_minutes": 30,
    "notes": [
@@ -223,8 +223,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1790604498,
-    "live_until": 1790605098
+    "last_active": 1790604521,
+    "live_until": 1790605121
    },
    "expected_minutes": 30,
    "notes": [
