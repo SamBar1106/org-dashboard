@@ -71,6 +71,9 @@
    "status_text": "Assistant (always on)",
    "schedule_text": null,
    "schedule": null,
+   "approved": null,
+   "approval_text": null,
+   "running": null,
    "expected_minutes": 30,
    "notes": [
     "Grok assistant; triggers routines"
@@ -87,6 +90,9 @@
    "status_text": "Planned, not built",
    "schedule_text": null,
    "schedule": null,
+   "approved": false,
+   "approval_text": "schedule approval: off",
+   "running": null,
    "expected_minutes": 30,
    "notes": [
     "planned schedule: Monday 7:00 AM"
@@ -103,6 +109,9 @@
    "status_text": "Planned, not built",
    "schedule_text": null,
    "schedule": null,
+   "approved": false,
+   "approval_text": "schedule approval: off",
+   "running": null,
    "expected_minutes": 30,
    "notes": [
     "schedule TBD"
@@ -115,12 +124,22 @@
    "emoji": "💬",
    "division": "sales",
    "kind": "bot",
-   "status": "disabled",
-   "status_text": "Built, disabled (approval gate off)",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
+   "approved": false,
+   "approval_text": "schedule approval: off",
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
+   },
    "expected_minutes": 20,
    "notes": [
+    "manual / dry runs only until approved",
     "schedule TBD"
    ],
    "flags": []
@@ -135,6 +154,9 @@
    "status_text": "Planned, not built",
    "schedule_text": null,
    "schedule": null,
+   "approved": false,
+   "approval_text": "schedule approval: off",
+   "running": null,
    "expected_minutes": 30,
    "notes": [
     "schedule TBD"
@@ -151,6 +173,9 @@
    "status_text": "Planned, not built",
    "schedule_text": null,
    "schedule": null,
+   "approved": false,
+   "approval_text": "schedule approval: off",
+   "running": null,
    "expected_minutes": 30,
    "notes": [
     "schedule TBD"
@@ -163,10 +188,19 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
+   "approved": true,
+   "approval_text": "use approval (tax-expert.yaml): on",
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
+   },
    "expected_minutes": 30,
    "notes": [
     "owner: Division 4"
@@ -180,9 +214,18 @@
    "division": "production",
    "kind": "library",
    "status": "live",
-   "status_text": "Live",
+   "status_text": "Live: active within the last 10 min",
    "schedule_text": null,
    "schedule": null,
+   "approved": true,
+   "approval_text": "use approval (tax-expert.yaml): on",
+   "running": {
+    "state": "recent",
+    "via": null,
+    "since": null,
+    "last_active": 1790604498,
+    "live_until": 1790605098
+   },
    "expected_minutes": 30,
    "notes": [
     "owner: Division 4"
@@ -195,10 +238,19 @@
    "emoji": "🔁",
    "division": "production",
    "kind": "workflow",
-   "status": "live",
-   "status_text": "Live",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
+   "approved": true,
+   "approval_text": "refund workflow approval: on",
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
+   },
    "expected_minutes": 20,
    "notes": [
     "on-demand trigger from Sales / QC"
@@ -211,13 +263,22 @@
    "emoji": "🕵️",
    "division": "quality-control",
    "kind": "bot",
-   "status": "live",
-   "status_text": "Live",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": "daily 4:54 AM CT",
    "schedule": {
     "kind": "daily",
     "time": "04:54",
     "tz": "America/Chicago"
+   },
+   "approved": true,
+   "approval_text": "schedule approval: on",
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
    },
    "expected_minutes": 15,
    "notes": [
@@ -235,6 +296,9 @@
    "status_text": "Planned, not built",
    "schedule_text": null,
    "schedule": null,
+   "approved": false,
+   "approval_text": "schedule approval: off",
+   "running": null,
    "expected_minutes": 30,
    "notes": [
     "schedule TBD"
@@ -247,10 +311,19 @@
    "emoji": "📄",
    "division": "shared",
    "kind": "library",
-   "status": "manual",
-   "status_text": "Built, runs on demand",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
+   "approved": null,
+   "approval_text": null,
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
+   },
    "expected_minutes": 30,
    "notes": [
     "shared reader for statements, stubs, W-2s"
@@ -265,10 +338,19 @@
    "emoji": "📥",
    "division": "shared",
    "kind": "workflow",
-   "status": "manual",
-   "status_text": "Built, runs on demand",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
+   "approved": false,
+   "approval_text": "automatic-run approval: off",
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
+   },
    "expected_minutes": 20,
    "notes": [
     "automated use off; manual runs only"
@@ -281,10 +363,19 @@
    "emoji": "📊",
    "division": "shared",
    "kind": "library",
-   "status": "manual",
-   "status_text": "Built, runs on demand",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
+   "approved": null,
+   "approval_text": null,
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
+   },
    "expected_minutes": 30,
    "notes": [
     "part of doc parser"
@@ -401,5 +492,6 @@
   "weekly summary"
  ],
  "missed_grace_minutes": 60,
- "window_days": 7
+ "window_days": 7,
+ "running_grace_minutes": 10.0
 }
