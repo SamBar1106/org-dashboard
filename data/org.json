@@ -80,25 +80,25 @@
    ],
    "flags": [],
    "agy_usage": {
-    "runs": 1,
+    "runs": 4,
     "last": {
-     "task": "TASK-002",
-     "status": "NO_CHANGES",
-     "ts": 1790630711,
-     "duration_s": 191.4,
-     "in": 149587,
-     "out": 58937,
-     "thinking": 57935,
-     "cached": 302056,
-     "total": 208524
+     "task": "TASK-005",
+     "status": "SUCCESS",
+     "ts": 1790639503,
+     "duration_s": 552.5,
+     "in": 1092553,
+     "out": 96465,
+     "thinking": 58338,
+     "cached": 8701005,
+     "total": 1189018
     },
     "total": {
-     "in": 149587,
-     "out": 58937,
-     "thinking": 57935,
-     "cached": 302056,
-     "total": 208524,
-     "duration_s": 191.4
+     "in": 2453555,
+     "out": 380684,
+     "thinking": 263404,
+     "cached": 21469147,
+     "total": 2834239,
+     "duration_s": 1644.2
     }
    }
   },
@@ -158,7 +158,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1790604637,
     "live_until": null
    },
    "expected_minutes": 20,
@@ -215,18 +215,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790640001,
-    "live_until": 1790640181
+    "last_active": 1790604521,
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
@@ -236,70 +236,23 @@
    "agy_usage": null
   },
   {
-   "id": "bookkeeper-expert",
-   "label": "Bookkeeper Expert",
-   "emoji": "📒",
+   "id": "tax-engine",
+   "label": "Tax Engine",
+   "emoji": "🧮",
    "division": "production",
    "kind": "library",
    "status": "idle",
    "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
-   "approved": false,
-   "approval_text": "use approval (bookkeeper-expert.yaml): off",
+   "approved": true,
+   "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1790604521,
     "live_until": null
-   },
-   "expected_minutes": 30,
-   "notes": [
-    "owner: Division 4"
-   ],
-   "flags": [],
-   "agy_usage": {
-    "runs": 3,
-    "last": {
-     "task": "TASK-005",
-     "status": "SUCCESS",
-     "ts": 1790639503,
-     "duration_s": 552.5,
-     "in": 1092553,
-     "out": 96465,
-     "thinking": 58338,
-     "cached": 8701005,
-     "total": 1189018
-    },
-    "total": {
-     "in": 2303968,
-     "out": 321747,
-     "thinking": 205469,
-     "cached": 21167091,
-     "total": 2625715,
-     "duration_s": 1452.8
-    }
-   }
-  },
-  {
-   "id": "tax-engine",
-   "label": "Tax Engine",
-   "emoji": "🧮",
-   "division": "production",
-   "kind": "library",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
-   "schedule_text": null,
-   "schedule": null,
-   "approved": true,
-   "approval_text": "use approval (tax-expert.yaml): on",
-   "running": {
-    "state": "recent",
-    "via": null,
-    "since": null,
-    "last_active": 1790640001,
-    "live_until": 1790640181
    },
    "expected_minutes": 30,
    "notes": [
@@ -354,7 +307,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1790631742,
     "live_until": null
    },
    "expected_minutes": 15,
@@ -500,16 +453,6 @@
    "from": "refund-workflow",
    "to": "tax-expert",
    "label": "draft 1040"
-  },
-  {
-   "from": "bookkeeper-expert",
-   "to": "tax-expert",
-   "label": "bookkeeping complete"
-  },
-  {
-   "from": "intake",
-   "to": "bookkeeper-expert",
-   "label": "documents"
   },
   {
    "from": "tax-expert",
