@@ -80,25 +80,25 @@
    ],
    "flags": [],
    "agy_usage": {
-    "runs": 4,
+    "runs": 5,
     "last": {
-     "task": "TASK-005",
+     "task": "TASK-006",
      "status": "SUCCESS",
-     "ts": 1790639503,
-     "duration_s": 552.5,
-     "in": 1092553,
-     "out": 96465,
-     "thinking": 58338,
-     "cached": 8701005,
-     "total": 1189018
+     "ts": 1790658337,
+     "duration_s": 280.8,
+     "in": 278122,
+     "out": 83746,
+     "thinking": 75284,
+     "cached": 2105876,
+     "total": 361868
     },
     "total": {
-     "in": 2453555,
-     "out": 380684,
-     "thinking": 263404,
-     "cached": 21469147,
-     "total": 2834239,
-     "duration_s": 1644.2
+     "in": 2731677,
+     "out": 464430,
+     "thinking": 338688,
+     "cached": 23575023,
+     "total": 3196107,
+     "duration_s": 1925.0
     }
    }
   },
@@ -293,8 +293,8 @@
    "emoji": "🕵️",
    "division": "quality-control",
    "kind": "bot",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: code running now",
    "schedule_text": "daily 4:54 AM CT",
    "schedule": {
     "kind": "daily",
@@ -304,10 +304,10 @@
    "approved": true,
    "approval_text": "schedule approval: on",
    "running": {
-    "state": "idle",
+    "state": "running",
     "via": null,
-    "since": null,
-    "last_active": 1790631742,
+    "since": 1790676025,
+    "last_active": 1790676027,
     "live_until": null
    },
    "expected_minutes": 15,
