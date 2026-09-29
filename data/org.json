@@ -215,18 +215,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1790636357,
-    "live_until": null
+    "last_active": 1790640001,
+    "live_until": 1790640181
    },
    "expected_minutes": 30,
    "notes": [
@@ -260,25 +260,25 @@
    ],
    "flags": [],
    "agy_usage": {
-    "runs": 1,
+    "runs": 3,
     "last": {
-     "task": "TASK-003",
+     "task": "TASK-005",
      "status": "SUCCESS",
-     "ts": 1790634889,
-     "duration_s": 493.1,
-     "in": 855329,
-     "out": 116250,
-     "thinking": 84497,
-     "cached": 7958963,
-     "total": 971579
+     "ts": 1790639503,
+     "duration_s": 552.5,
+     "in": 1092553,
+     "out": 96465,
+     "thinking": 58338,
+     "cached": 8701005,
+     "total": 1189018
     },
     "total": {
-     "in": 855329,
-     "out": 116250,
-     "thinking": 84497,
-     "cached": 7958963,
-     "total": 971579,
-     "duration_s": 493.1
+     "in": 2303968,
+     "out": 321747,
+     "thinking": 205469,
+     "cached": 21167091,
+     "total": 2625715,
+     "duration_s": 1452.8
     }
    }
   },
@@ -288,18 +288,18 @@
    "emoji": "🧮",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1790636357,
-    "live_until": null
+    "last_active": 1790640001,
+    "live_until": 1790640181
    },
    "expected_minutes": 30,
    "notes": [
