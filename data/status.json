@@ -1,7 +1,7 @@
 {
  "v": 1,
- "generated_ts": 1790848945,
- "snapshot_id": "5bce7408",
+ "generated_ts": 1790848949,
+ "snapshot_id": "499c0e65",
  "window_days": 7,
  "events": [
   {
@@ -107,6 +107,32 @@
    "type": "start",
    "run_id": "26e882c0",
    "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790848948,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "26e882c0",
+   "exit_code": 0,
+   "duration_s": 5,
+   "counts": {
+    "open_tickets": 20,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 0,
+    "skipped": 0
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790848948,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "26e882c0",
+   "step": "run summary"
   }
  ],
  "note": "Public-by-link snapshot: bot names, states, generic steps, counts and timestamps only."
