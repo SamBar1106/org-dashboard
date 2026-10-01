@@ -1,7 +1,7 @@
 {
  "v": 1,
- "generated_ts": 1790849420,
- "snapshot_id": "55a4cd2d",
+ "generated_ts": 1790849446,
+ "snapshot_id": "0f5a3d5a",
  "window_days": 7,
  "events": [
   {
@@ -200,6 +200,40 @@
    "to": "executive-hub",
    "type": "handoff",
    "run_id": "8e35f061",
+   "step": "run summary"
+  },
+  {
+   "v": 1,
+   "ts": 1790849441,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "7de0abce",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790849445,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "7de0abce",
+   "exit_code": 0,
+   "duration_s": 4,
+   "counts": {
+    "open_tickets": 21,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 2,
+    "skipped": 8
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790849445,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "7de0abce",
    "step": "run summary"
   }
  ],
