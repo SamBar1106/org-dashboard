@@ -1,7 +1,7 @@
 {
  "v": 1,
- "generated_ts": 1790849131,
- "snapshot_id": "4d106752",
+ "generated_ts": 1790849327,
+ "snapshot_id": "2471a81b",
  "window_days": 7,
  "events": [
   {
@@ -133,6 +133,14 @@
    "type": "handoff",
    "run_id": "26e882c0",
    "step": "run summary"
+  },
+  {
+   "v": 1,
+   "ts": 1790849325,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "5e43035f",
+   "step": "run"
   }
  ],
  "note": "Public-by-link snapshot: bot names, states, generic steps, counts and timestamps only."
