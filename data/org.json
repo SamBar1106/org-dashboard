@@ -294,7 +294,7 @@
    "division": "quality-control",
    "kind": "bot",
    "status": "live",
-   "status_text": "Live: code running now",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": "daily 4:54 AM CT",
    "schedule": {
     "kind": "daily",
@@ -304,11 +304,11 @@
    "approved": true,
    "approval_text": "schedule approval: on",
    "running": {
-    "state": "running",
+    "state": "recent",
     "via": null,
-    "since": 1790849325,
-    "last_active": 1790849326,
-    "live_until": null
+    "since": null,
+    "last_active": 1790849329,
+    "live_until": 1790849509
    },
    "expected_minutes": 15,
    "notes": [
