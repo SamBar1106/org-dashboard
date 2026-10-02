@@ -158,7 +158,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1790604637,
     "live_until": null
    },
    "expected_minutes": 20,
@@ -225,7 +225,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1790604521,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -251,7 +251,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1790604521,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -306,8 +306,8 @@
    "running": {
     "state": "running",
     "via": null,
-    "since": 1790904124,
-    "last_active": 1790904125,
+    "since": 1790904127,
+    "last_active": 1790904127,
     "live_until": null
    },
    "expected_minutes": 15,
