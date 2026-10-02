@@ -293,8 +293,8 @@
    "emoji": "🕵️",
    "division": "quality-control",
    "kind": "bot",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: code running now",
    "schedule_text": "daily 4:54 AM CT",
    "schedule": {
     "kind": "daily",
@@ -304,10 +304,10 @@
    "approved": true,
    "approval_text": "schedule approval: on",
    "running": {
-    "state": "idle",
+    "state": "running",
     "via": null,
-    "since": null,
-    "last_active": 1790904127,
+    "since": 1790934941,
+    "last_active": 1790934942,
     "live_until": null
    },
    "expected_minutes": 15,
