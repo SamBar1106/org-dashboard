@@ -158,7 +158,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604637,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 20,
@@ -225,7 +225,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604521,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -251,7 +251,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604521,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -294,7 +294,7 @@
    "division": "quality-control",
    "kind": "bot",
    "status": "live",
-   "status_text": "Live: code running now",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": "daily 4:54 AM CT",
    "schedule": {
     "kind": "daily",
@@ -304,11 +304,11 @@
    "approved": true,
    "approval_text": "schedule approval: on",
    "running": {
-    "state": "running",
+    "state": "recent",
     "via": null,
-    "since": 1790934941,
-    "last_active": 1790934942,
-    "live_until": null
+    "since": null,
+    "last_active": 1790934946,
+    "live_until": 1790935126
    },
    "expected_minutes": 15,
    "notes": [
