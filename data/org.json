@@ -158,7 +158,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604637,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 20,
@@ -225,7 +225,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604521,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -251,7 +251,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604521,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -293,8 +293,8 @@
    "emoji": "🕵️",
    "division": "quality-control",
    "kind": "bot",
-   "status": "live",
-   "status_text": "Live: code running now",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": "daily 4:54 AM CT",
    "schedule": {
     "kind": "daily",
@@ -304,10 +304,10 @@
    "approved": true,
    "approval_text": "schedule approval: on",
    "running": {
-    "state": "running",
+    "state": "idle",
     "via": null,
-    "since": 1790904127,
-    "last_active": 1790904127,
+    "since": null,
+    "last_active": 1790904128,
     "live_until": null
    },
    "expected_minutes": 15,
