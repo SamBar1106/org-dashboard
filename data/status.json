@@ -1,8 +1,275 @@
 {
  "v": 1,
- "generated_ts": 1790935010,
- "snapshot_id": "6bd42a84",
+ "generated_ts": 1790935129,
+ "snapshot_id": "9a8f1796",
  "window_days": 7,
- "events": [],
+ "events": [
+  {
+   "v": 1,
+   "ts": 1790547680,
+   "bot": "quality-control",
+   "type": "skipped",
+   "run_id": "lb55a5ac",
+   "step": "disabled"
+  },
+  {
+   "v": 1,
+   "ts": 1790547689,
+   "bot": "quality-control",
+   "type": "skipped",
+   "run_id": "l2c1fd10",
+   "step": "disabled"
+  },
+  {
+   "v": 1,
+   "ts": 1790550427,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "l913b291",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790589753,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "lc58cb9a",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790626186,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "l913b291",
+   "duration_s": 75759,
+   "counts": {
+    "open_tickets": 27,
+    "new_tickets": 22,
+    "stage_changes": 0,
+    "closed_tickets": 2
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790626188,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "lc58cb9a",
+   "duration_s": 36435,
+   "counts": {
+    "open_tickets": 18,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 9,
+    "tickets_created": 0,
+    "skipped": 1
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790676025,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "f669daf9",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790676033,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "f669daf9",
+   "exit_code": 0,
+   "duration_s": 7,
+   "counts": {
+    "open_tickets": 18,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 2,
+    "skipped": 4
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790676034,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "f669daf9",
+   "step": "run summary"
+  },
+  {
+   "v": 1,
+   "ts": 1790848942,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "26e882c0",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790848948,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "26e882c0",
+   "exit_code": 0,
+   "duration_s": 5,
+   "counts": {
+    "open_tickets": 20,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 0,
+    "skipped": 0
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790848948,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "26e882c0",
+   "step": "run summary"
+  },
+  {
+   "v": 1,
+   "ts": 1790849325,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "5e43035f",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790849329,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "5e43035f",
+   "exit_code": 0,
+   "duration_s": 3,
+   "counts": {
+    "open_tickets": 20,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 1,
+    "skipped": 7
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790849329,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "5e43035f",
+   "step": "run summary"
+  },
+  {
+   "v": 1,
+   "ts": 1790849415,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "8e35f061",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790849418,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "8e35f061",
+   "exit_code": 0,
+   "duration_s": 3,
+   "counts": {
+    "open_tickets": 21,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 0,
+    "skipped": 8
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790849418,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "8e35f061",
+   "step": "run summary"
+  },
+  {
+   "v": 1,
+   "ts": 1790849441,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "7de0abce",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790849445,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "7de0abce",
+   "exit_code": 0,
+   "duration_s": 4,
+   "counts": {
+    "open_tickets": 21,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 2,
+    "skipped": 8
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790849445,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "7de0abce",
+   "step": "run summary"
+  },
+  {
+   "v": 1,
+   "ts": 1790934941,
+   "bot": "quality-control",
+   "type": "start",
+   "run_id": "2f60bacd",
+   "step": "run"
+  },
+  {
+   "v": 1,
+   "ts": 1790934946,
+   "bot": "quality-control",
+   "type": "finish",
+   "run_id": "2f60bacd",
+   "exit_code": 0,
+   "duration_s": 5,
+   "counts": {
+    "open_tickets": 23,
+    "new_tickets": 0,
+    "stage_changes": 0,
+    "closed_tickets": 0,
+    "tickets_created": 0,
+    "skipped": 0
+   }
+  },
+  {
+   "v": 1,
+   "ts": 1790934947,
+   "bot": "quality-control",
+   "to": "executive-hub",
+   "type": "handoff",
+   "run_id": "2f60bacd",
+   "step": "run summary"
+  }
+ ],
  "note": "Public-by-link snapshot: bot names, states, generic steps, counts and timestamps only."
 }
