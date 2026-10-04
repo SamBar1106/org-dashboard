@@ -80,7 +80,7 @@
    ],
    "flags": [],
    "agy_usage": {
-    "runs": 8,
+    "runs": 4,
     "last": {
      "task": "TASK-009",
      "status": "SUCCESS",
@@ -93,12 +93,12 @@
      "total": 361265
     },
     "total": {
-     "in": 3726251,
-     "out": 685866,
-     "thinking": 504666,
-     "cached": 35841205,
-     "total": 4412117,
-     "duration_s": 2823.7
+     "in": 1144161,
+     "out": 280373,
+     "thinking": 223913,
+     "cached": 12568238,
+     "total": 1424534,
+     "duration_s": 1090.1
     }
    }
   },
@@ -158,7 +158,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604637,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 20,
@@ -195,15 +195,22 @@
    "emoji": "⚙️",
    "division": "production",
    "kind": "bot",
-   "status": "planned",
-   "status_text": "Planned, not built",
+   "status": "live",
+   "status_text": "Live: code running now",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
-   "running": null,
+   "running": {
+    "state": "running",
+    "via": null,
+    "since": 1791115051,
+    "last_active": 1791115052,
+    "live_until": null
+   },
    "expected_minutes": 30,
    "notes": [
+    "manual / dry runs only until approved",
     "schedule TBD"
    ],
    "flags": [],
@@ -225,7 +232,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604521,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -234,6 +241,53 @@
    ],
    "flags": [],
    "agy_usage": null
+  },
+  {
+   "id": "bookkeeper-expert",
+   "label": "Bookkeeper Expert",
+   "emoji": "📒",
+   "division": "production",
+   "kind": "library",
+   "status": "idle",
+   "status_text": "Idle / not running",
+   "schedule_text": null,
+   "schedule": null,
+   "approved": false,
+   "approval_text": "use approval (bookkeeper-expert.yaml): off",
+   "running": {
+    "state": "idle",
+    "via": null,
+    "since": null,
+    "last_active": null,
+    "live_until": null
+   },
+   "expected_minutes": 30,
+   "notes": [
+    "owner: Division 4"
+   ],
+   "flags": [],
+   "agy_usage": {
+    "runs": 4,
+    "last": {
+     "task": "TASK-006",
+     "status": "SUCCESS",
+     "ts": 1790658337,
+     "duration_s": 280.8,
+     "in": 278122,
+     "out": 83746,
+     "thinking": 75284,
+     "cached": 2105876,
+     "total": 361868
+    },
+    "total": {
+     "in": 2582090,
+     "out": 405493,
+     "thinking": 280753,
+     "cached": 23272967,
+     "total": 2987583,
+     "duration_s": 1733.6
+    }
+   }
   },
   {
    "id": "tax-engine",
@@ -251,7 +305,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1790604521,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -307,7 +361,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1791108578,
+    "last_active": 1790934946,
     "live_until": null
    },
    "expected_minutes": 15,
@@ -453,6 +507,16 @@
    "from": "refund-workflow",
    "to": "tax-expert",
    "label": "draft 1040"
+  },
+  {
+   "from": "bookkeeper-expert",
+   "to": "tax-expert",
+   "label": "bookkeeping complete"
+  },
+  {
+   "from": "intake",
+   "to": "bookkeeper-expert",
+   "label": "documents"
   },
   {
    "from": "tax-expert",
