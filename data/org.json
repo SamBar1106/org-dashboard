@@ -195,18 +195,18 @@
    "emoji": "⚙️",
    "division": "production",
    "kind": "bot",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
     "last_active": 1791136207,
-    "live_until": 1791136387
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
@@ -232,8 +232,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791136225,
-    "live_until": 1791136405
+    "last_active": 1791136280,
+    "live_until": 1791136460
    },
    "expected_minutes": 30,
    "notes": [
@@ -305,8 +305,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791136225,
-    "live_until": 1791136405
+    "last_active": 1791136280,
+    "live_until": 1791136460
    },
    "expected_minutes": 30,
    "notes": [
