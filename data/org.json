@@ -196,17 +196,17 @@
    "division": "production",
    "kind": "bot",
    "status": "live",
-   "status_text": "Live: code running now",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
    "running": {
-    "state": "running",
+    "state": "recent",
     "via": null,
-    "since": 1791136165,
-    "last_active": 1791136166,
-    "live_until": null
+    "since": null,
+    "last_active": 1791136207,
+    "live_until": 1791136387
    },
    "expected_minutes": 30,
    "notes": [
@@ -232,8 +232,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791136131,
-    "live_until": 1791136311
+    "last_active": 1791136225,
+    "live_until": 1791136405
    },
    "expected_minutes": 30,
    "notes": [
@@ -248,18 +248,18 @@
    "emoji": "📒",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "use approval (bookkeeper-expert.yaml): off",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
     "last_active": 1791136096,
-    "live_until": 1791136276
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
@@ -305,8 +305,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791136131,
-    "live_until": 1791136311
+    "last_active": 1791136225,
+    "live_until": 1791136405
    },
    "expected_minutes": 30,
    "notes": [
@@ -425,18 +425,18 @@
    "emoji": "📥",
    "division": "shared",
    "kind": "workflow",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min (in use via Bookkeeper Expert)",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "automatic-run approval: off",
    "running": {
-    "state": "recent",
-    "via": "bookkeeper-expert",
+    "state": "idle",
+    "via": null,
     "since": null,
-    "last_active": 1791136096,
-    "live_until": 1791136276
+    "last_active": null,
+    "live_until": null
    },
    "expected_minutes": 20,
    "notes": [
