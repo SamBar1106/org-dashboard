@@ -195,17 +195,17 @@
    "emoji": "⚙️",
    "division": "production",
    "kind": "bot",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: code running now",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
    "running": {
-    "state": "idle",
+    "state": "running",
     "via": null,
-    "since": null,
-    "last_active": 1791133885,
+    "since": 1791136165,
+    "last_active": 1791136166,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -232,8 +232,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791136064,
-    "live_until": 1791136244
+    "last_active": 1791136131,
+    "live_until": 1791136311
    },
    "expected_minutes": 30,
    "notes": [
@@ -258,8 +258,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791136064,
-    "live_until": 1791136244
+    "last_active": 1791136096,
+    "live_until": 1791136276
    },
    "expected_minutes": 30,
    "notes": [
@@ -305,8 +305,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791136064,
-    "live_until": 1791136244
+    "last_active": 1791136131,
+    "live_until": 1791136311
    },
    "expected_minutes": 30,
    "notes": [
@@ -435,8 +435,8 @@
     "state": "recent",
     "via": "bookkeeper-expert",
     "since": null,
-    "last_active": 1791136064,
-    "live_until": 1791136244
+    "last_active": 1791136096,
+    "live_until": 1791136276
    },
    "expected_minutes": 20,
    "notes": [
