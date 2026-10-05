@@ -1,7 +1,7 @@
 {
  "v": 1,
- "generated_ts": 1791234903,
- "snapshot_id": "db00cd6a",
+ "generated_ts": 1791236535,
+ "snapshot_id": "05d059f0",
  "window_days": 7,
  "events": [],
  "note": "Public-by-link snapshot: bot names, states, generic steps, counts and timestamps only."
