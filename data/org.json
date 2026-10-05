@@ -196,17 +196,17 @@
    "division": "production",
    "kind": "bot",
    "status": "live",
-   "status_text": "Live: code running now",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
    "running": {
-    "state": "running",
+    "state": "recent",
     "via": null,
-    "since": 1791213671,
-    "last_active": 1791214159,
-    "live_until": null
+    "since": null,
+    "last_active": 1791214255,
+    "live_until": 1791214435
    },
    "expected_minutes": 30,
    "notes": [
