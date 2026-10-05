@@ -195,18 +195,18 @@
    "emoji": "⚙️",
    "division": "production",
    "kind": "bot",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "schedule approval: off",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791200888,
-    "live_until": null
+    "last_active": 1791209947,
+    "live_until": 1791210127
    },
    "expected_minutes": 30,
    "notes": [
