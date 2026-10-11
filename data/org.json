@@ -80,25 +80,25 @@
    ],
    "flags": [],
    "agy_usage": {
-    "runs": 7,
+    "runs": 10,
     "last": {
-     "task": "TASK-012",
+     "task": "TASK-015",
      "status": "SUCCESS",
-     "ts": 1791750485,
-     "duration_s": 478.8,
-     "in": 211231,
-     "out": 78766,
-     "thinking": 74456,
-     "cached": 1126984,
-     "total": 289997
+     "ts": 1791756830,
+     "duration_s": 603.2,
+     "in": 300645,
+     "out": 85829,
+     "thinking": 80384,
+     "cached": 2197930,
+     "total": 386474
     },
     "total": {
-     "in": 1765386,
-     "out": 448985,
-     "thinking": 376034,
-     "cached": 17504227,
-     "total": 2214371,
-     "duration_s": 1948.7
+     "in": 2523079,
+     "out": 673876,
+     "thinking": 567692,
+     "cached": 23593031,
+     "total": 3196955,
+     "duration_s": 3746.2
     }
    }
   },
@@ -222,18 +222,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791754071,
-    "live_until": null
+    "last_active": 1791756847,
+    "live_until": 1791757027
    },
    "expected_minutes": 30,
    "notes": [
@@ -241,11 +241,11 @@
    ],
    "flags": [],
    "agy_usage": {
-    "runs": 1,
+    "runs": 2,
     "last": {
      "task": "TASK-013",
      "status": "SUCCESS",
-     "ts": 1791751149,
+     "ts": 1791755349,
      "duration_s": 564.6,
      "in": 361272,
      "out": 74351,
@@ -254,12 +254,12 @@
      "total": 435623
     },
     "total": {
-     "in": 361272,
-     "out": 74351,
-     "thinking": 62885,
-     "cached": 4866864,
-     "total": 435623,
-     "duration_s": 564.6
+     "in": 722544,
+     "out": 148702,
+     "thinking": 125770,
+     "cached": 9733728,
+     "total": 871246,
+     "duration_s": 1129.2
     }
    }
   },
@@ -269,18 +269,18 @@
    "emoji": "📒",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "use approval (bookkeeper-expert.yaml): off",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": null,
-    "live_until": null
+    "last_active": 1791756847,
+    "live_until": 1791757027
    },
    "expected_minutes": 30,
    "notes": [
@@ -316,18 +316,18 @@
    "emoji": "🧮",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791754071,
-    "live_until": null
+    "last_active": 1791756847,
+    "live_until": 1791757027
    },
    "expected_minutes": 30,
    "notes": [
@@ -446,18 +446,18 @@
    "emoji": "📥",
    "division": "shared",
    "kind": "workflow",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min (in use via Bookkeeper Expert)",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "automatic-run approval: off",
    "running": {
-    "state": "idle",
-    "via": null,
+    "state": "recent",
+    "via": "bookkeeper-expert",
     "since": null,
-    "last_active": null,
-    "live_until": null
+    "last_active": 1791756847,
+    "live_until": 1791757027
    },
    "expected_minutes": 20,
    "notes": [
