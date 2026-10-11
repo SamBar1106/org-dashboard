@@ -205,7 +205,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1791362633,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -232,8 +232,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791750837,
-    "live_until": 1791751017
+    "last_active": 1791750974,
+    "live_until": 1791751154
    },
    "expected_minutes": 30,
    "notes": [
@@ -248,18 +248,18 @@
    "emoji": "📒",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "use approval (bookkeeper-expert.yaml): off",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": null,
-    "live_until": null
+    "last_active": 1791750974,
+    "live_until": 1791751154
    },
    "expected_minutes": 30,
    "notes": [
@@ -305,8 +305,8 @@
     "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791750837,
-    "live_until": 1791751017
+    "last_active": 1791750974,
+    "live_until": 1791751154
    },
    "expected_minutes": 30,
    "notes": [
@@ -361,7 +361,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": null,
+    "last_active": 1791280668,
     "live_until": null
    },
    "expected_minutes": 15,
@@ -425,18 +425,18 @@
    "emoji": "📥",
    "division": "shared",
    "kind": "workflow",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min (in use via Bookkeeper Expert)",
    "schedule_text": null,
    "schedule": null,
    "approved": false,
    "approval_text": "automatic-run approval: off",
    "running": {
-    "state": "idle",
-    "via": null,
+    "state": "recent",
+    "via": "bookkeeper-expert",
     "since": null,
-    "last_active": null,
-    "live_until": null
+    "last_active": 1791750974,
+    "live_until": 1791751154
    },
    "expected_minutes": 20,
    "notes": [
