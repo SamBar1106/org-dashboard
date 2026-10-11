@@ -80,25 +80,25 @@
    ],
    "flags": [],
    "agy_usage": {
-    "runs": 6,
+    "runs": 7,
     "last": {
-     "task": "TASK-011",
+     "task": "TASK-012",
      "status": "SUCCESS",
-     "ts": 1791120094,
-     "duration_s": 135.8,
-     "in": 159747,
-     "out": 32124,
-     "thinking": 27159,
-     "cached": 938567,
-     "total": 191871
+     "ts": 1791750485,
+     "duration_s": 478.8,
+     "in": 211231,
+     "out": 78766,
+     "thinking": 74456,
+     "cached": 1126984,
+     "total": 289997
     },
     "total": {
-     "in": 1554155,
-     "out": 370219,
-     "thinking": 301578,
-     "cached": 16377243,
-     "total": 1924374,
-     "duration_s": 1469.9
+     "in": 1765386,
+     "out": 448985,
+     "thinking": 376034,
+     "cached": 17504227,
+     "total": 2214371,
+     "duration_s": 1948.7
     }
    }
   },
@@ -222,18 +222,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1791750392,
-    "live_until": 1791750572
+    "last_active": 1791750558,
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
@@ -295,18 +295,18 @@
    "emoji": "🧮",
    "division": "production",
    "kind": "library",
-   "status": "live",
-   "status_text": "Live: ran within the last 3 min",
+   "status": "idle",
+   "status_text": "Idle / not running",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "recent",
+    "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1791750392,
-    "live_until": 1791750572
+    "last_active": 1791750558,
+    "live_until": null
    },
    "expected_minutes": 30,
    "notes": [
