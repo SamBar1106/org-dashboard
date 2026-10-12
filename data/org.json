@@ -222,18 +222,18 @@
    "emoji": "🎓",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791756847,
-    "live_until": null
+    "last_active": 1791843670,
+    "live_until": 1791843850
    },
    "expected_minutes": 30,
    "notes": [
@@ -279,7 +279,7 @@
     "state": "idle",
     "via": null,
     "since": null,
-    "last_active": 1791756847,
+    "last_active": null,
     "live_until": null
    },
    "expected_minutes": 30,
@@ -316,18 +316,18 @@
    "emoji": "🧮",
    "division": "production",
    "kind": "library",
-   "status": "idle",
-   "status_text": "Idle / not running",
+   "status": "live",
+   "status_text": "Live: ran within the last 3 min",
    "schedule_text": null,
    "schedule": null,
    "approved": true,
    "approval_text": "use approval (tax-expert.yaml): on",
    "running": {
-    "state": "idle",
+    "state": "recent",
     "via": null,
     "since": null,
-    "last_active": 1791758442,
-    "live_until": null
+    "last_active": 1791843670,
+    "live_until": 1791843850
    },
    "expected_minutes": 30,
    "notes": [
@@ -390,7 +390,28 @@
     "runs via scripts/run_bot.sh"
    ],
    "flags": [],
-   "agy_usage": null
+   "agy_usage": {
+    "runs": 1,
+    "last": {
+     "task": "TASK-016",
+     "status": "NO_CHANGES",
+     "ts": 1791760160,
+     "duration_s": 2683.0,
+     "in": 1011144,
+     "out": 393410,
+     "thinking": 380967,
+     "cached": 15564555,
+     "total": 1404554
+    },
+    "total": {
+     "in": 1011144,
+     "out": 393410,
+     "thinking": 380967,
+     "cached": 15564555,
+     "total": 1404554,
+     "duration_s": 2683.0
+    }
+   }
   },
   {
    "id": "brand-marketing",
