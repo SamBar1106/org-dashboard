@@ -1,1 +1,12 @@
-{ "name": "org-dashboard", "private": true, "type": "module", "scripts": { "test": "node --test test/" } }
+{
+  "name": "org-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.mjs",
+    "lint": "npm run lint --prefix command-floor",
+    "build": "npm run build --prefix command-floor",
+    "test:floor": "npm test --prefix command-floor",
+    "test:e2e": "npm run test:e2e --prefix command-floor"
+  }
+}
