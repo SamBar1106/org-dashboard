@@ -92,8 +92,55 @@ export function matches(kind: ObjectKind, id: string, filter: FilterId, floor: F
   return matchesKind(kind, id, filter, floor);
 }
 
-export function objectOpacity(kind: ObjectKind, id: string, filter: FilterId, floor: FloorModel): number {
-  return matches(kind, id, filter, floor) ? 1 : DIMMED_OPACITY;
+export interface MatchOptions {
+  query?: string;
+  hiddenRackIds?: readonly string[];
+}
+
+function haystack(kind: ObjectKind, id: string, floor: FloorModel): string {
+  switch (kind) {
+    case "pad": {
+      const pad = floor.project_pads.find((item) => item.id === id);
+      if (!pad) return id;
+      return [pad.name, pad.stage, pad.status_label, pad.repos_label, pad.hosting_label, ...pad.repos].join(" ");
+    }
+    case "rack": {
+      const rack = floor.database_racks.find((item) => item.id === id);
+      if (!rack) return id;
+      return [rack.name, rack.engine, rack.host, rack.status_label].join(" ");
+    }
+    case "pawn": {
+      const agent = floor.agents.find((item) => item.id === id);
+      if (!agent) return id;
+      return [agent.name, agent.role, agent.bot_type, agent.status, agent.waiting_on_samuel ?? ""].join(" ");
+    }
+    case "arc": {
+      const [rackId, padId] = id.split("::");
+      return `${haystack("rack", rackId ?? "", floor)} ${haystack("pad", padId ?? "", floor)}`;
+    }
+    default: {
+      const neverKind: never = kind;
+      return neverKind;
+    }
+  }
+}
+
+function matchesQuery(kind: ObjectKind, id: string, floor: FloorModel, query: string): boolean {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return true;
+  return haystack(kind, id, floor).toLowerCase().includes(needle);
+}
+
+function hiddenArc(id: string, hiddenRackIds: readonly string[] | undefined): boolean {
+  if (!hiddenRackIds || hiddenRackIds.length === 0) return false;
+  const rackId = id.split("::")[0];
+  return rackId ? hiddenRackIds.includes(rackId) : false;
+}
+
+export function objectOpacity(kind: ObjectKind, id: string, filter: FilterId, floor: FloorModel, options?: MatchOptions): number {
+  if (kind === "arc" && hiddenArc(id, options?.hiddenRackIds)) return 0;
+  const visible = matches(kind, id, filter, floor) && matchesQuery(kind, id, floor, options?.query ?? "");
+  return visible ? 1 : DIMMED_OPACITY;
 }
 
 export interface SceneObjectRef {
@@ -102,12 +149,12 @@ export interface SceneObjectRef {
   opacity: number;
 }
 
-export function sceneObjects(floor: FloorModel, filter: FilterId): SceneObjectRef[] {
+export function sceneObjects(floor: FloorModel, filter: FilterId, options?: MatchOptions): SceneObjectRef[] {
   const items: { kind: ObjectKind; id: string }[] = [
     ...floor.project_pads.map((pad) => ({ kind: "pad" as const, id: pad.id })),
     ...floor.database_racks.map((rack) => ({ kind: "rack" as const, id: rack.id })),
     ...floor.agents.map((agent) => ({ kind: "pawn" as const, id: agent.id })),
     ...arcIds(floor).map((arc) => ({ kind: "arc" as const, id: arc.id })),
   ];
-  return items.map((item) => ({ ...item, opacity: objectOpacity(item.kind, item.id, filter, floor) }));
+  return items.map((item) => ({ ...item, opacity: objectOpacity(item.kind, item.id, filter, floor, options) }));
 }

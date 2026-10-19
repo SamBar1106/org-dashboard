@@ -28,6 +28,9 @@ export interface ProjectPad {
   connected_db_ids: string[];
   open_pr_count: number | null;
   repos: string[];
+  /** Optional public usage figures. Omitted when the source has no spend data. */
+  spend_usd?: number | null;
+  tokens?: number | null;
 }
 
 export interface DatabaseRack {
@@ -39,6 +42,8 @@ export interface DatabaseRack {
   level: Level;
   position: Vec3;
   action_item: string | null;
+  spend_usd?: number | null;
+  tokens?: number | null;
 }
 
 export interface AgentPawn {
@@ -51,6 +56,8 @@ export interface AgentPawn {
   status: string;
   waiting_on_samuel: string | null;
   offset: Vec2;
+  spend_usd?: number | null;
+  tokens?: number | null;
 }
 
 export interface Checks {
@@ -100,4 +107,9 @@ export interface InspectorModel {
   hosting: string;
   status: string;
   action: string | null;
+  spend: string;
+  tokens: string;
+  tasks: number;
+  repoHref: string;
+  prHref: string;
 }

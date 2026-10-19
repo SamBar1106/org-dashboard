@@ -1,3 +1,4 @@
+import { formatSpend, formatTokens, pullHref, searchHref, taskCount } from "./metrics";
 import { redactPublic } from "./publicText";
 import type { FloorModel, InspectorModel, InspectorTone, Level, PawnState, Selection } from "./types";
 
@@ -68,7 +69,22 @@ function showAction(value: string | null | undefined): string | null {
 }
 
 function blank(title: string): InspectorModel {
-  return { title, erp: "—", stage: "—", level: "—", tone: "grey", repos: "—", hosting: "—", status: "—", action: null };
+  return {
+    title,
+    erp: "—",
+    stage: "—",
+    level: "—",
+    tone: "grey",
+    repos: "—",
+    hosting: "—",
+    status: "—",
+    action: null,
+    spend: formatSpend(null),
+    tokens: formatTokens(null),
+    tasks: 0,
+    repoHref: searchHref([title]),
+    prHref: searchHref([title]),
+  };
 }
 
 export function toInspector(selection: Selection, floor: FloorModel): InspectorModel {
@@ -86,6 +102,11 @@ export function toInspector(selection: Selection, floor: FloorModel): InspectorM
         hosting: show(pad.hosting_label),
         status: show(pad.status_label),
         action: showAction(pad.action_item),
+        spend: formatSpend(pad.spend_usd),
+        tokens: formatTokens(pad.tokens),
+        tasks: taskCount(selection, floor),
+        repoHref: searchHref(pad.repos),
+        prHref: pullHref(pad.repos, pad.open_pr_count),
       };
     }
     case "rack": {
@@ -101,6 +122,11 @@ export function toInspector(selection: Selection, floor: FloorModel): InspectorM
         hosting: show(rack.host),
         status: show(rack.status_label),
         action: showAction(rack.action_item),
+        spend: formatSpend(rack.spend_usd),
+        tokens: formatTokens(rack.tokens),
+        tasks: taskCount(selection, floor),
+        repoHref: searchHref([rack.name]),
+        prHref: searchHref([rack.name]),
       };
     }
     case "pawn": {
@@ -108,6 +134,7 @@ export function toInspector(selection: Selection, floor: FloorModel): InspectorM
       if (!agent) return blank(selection.id);
       const pad = floor.project_pads.find((item) => item.id === agent.assigned_pad_id);
       const tone = pawnTone(agent.state);
+      const repos = pad?.repos ?? [];
       return {
         title: show(agent.name),
         erp: show(pad?.erp_id ?? agent.id),
@@ -118,6 +145,11 @@ export function toInspector(selection: Selection, floor: FloorModel): InspectorM
         hosting: show(pad?.hosting_label ?? null),
         status: show(agent.status),
         action: showAction(agent.waiting_on_samuel),
+        spend: formatSpend(agent.spend_usd),
+        tokens: formatTokens(agent.tokens),
+        tasks: taskCount(selection, floor),
+        repoHref: searchHref(repos.length > 0 ? repos : [agent.name]),
+        prHref: pullHref(repos, pad?.open_pr_count ?? null),
       };
     }
     default: {

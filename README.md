@@ -19,7 +19,9 @@ npm run build          # writes index.html and assets/ for GitHub Pages
 npm run test:e2e       # Playwright against the published files
 ```
 
-The published seed has no IP addresses and no email addresses. `Simulate ED Morning Rollup` reloads that seed and animates the floor. It does not run health checks.
+The published seed has no IP addresses and no email addresses. `Simulate ED Morning Rollup` reloads that seed, then tours each red or waiting item. It does not run health checks.
+
+The floor is a public live-ops view: orbit, pan, selection, packets, and an edit mode stored in the browser. Sound is off until you turn it on. `Live Ops`, approve, dispatch, and resolve stay disabled until a private https API and a separate https login URL are configured at build time. Edit Floor never leaves the device except through Export JSON.
 
 ## Live org
 
