@@ -7,22 +7,23 @@ interface RackProps {
   rack: DatabaseRack;
   opacity: number;
   selected: boolean;
+  scale: number;
+  labelDistance: number;
   onSelect: () => void;
 }
 
 const PLATFORM_TOP = 0.16;
 
-export function RackMesh({ rack, opacity, selected, onSelect }: RackProps) {
+export function RackMesh({ rack, opacity, selected, scale, labelDistance, onSelect }: RackProps) {
   const choose = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
     onSelect();
   };
-  const lift = rack.position.y;
-  const bodyY = PLATFORM_TOP + lift + 0.62;
+  const bodyY = PLATFORM_TOP + 0.62;
   const leds = ledColors(rack.level);
   return (
-    <group position={[rack.position.x, 0, rack.position.z]}>
-      <mesh geometry={rackBaseGeometry} position={[0, PLATFORM_TOP + lift + 0.03, 0]} onClick={choose} onPointerOver={showPointer} onPointerOut={hidePointer}>
+    <group position={[rack.position.x, rack.position.y, rack.position.z]} scale={scale}>
+      <mesh geometry={rackBaseGeometry} position={[0, PLATFORM_TOP + 0.03, 0]} onClick={choose} onPointerOver={showPointer} onPointerOut={hidePointer}>
         <meshStandardMaterial color="#0c0c0e" roughness={0.45} metalness={0.4} transparent opacity={opacity} depthWrite={opacity === 1} />
       </mesh>
       <mesh geometry={rackGeometry} position={[0, bodyY, 0]} onClick={choose}>
@@ -45,7 +46,7 @@ export function RackMesh({ rack, opacity, selected, onSelect }: RackProps) {
           <meshBasicMaterial color={color} toneMapped={false} transparent opacity={opacity} depthWrite={false} />
         </mesh>
       ))}
-      <Html position={[0, bodyY + 0.78, 0]} center distanceFactor={11} zIndexRange={[12, 0]} wrapperClass="cf-html">
+      <Html position={[0, bodyY + 0.78, 0]} center distanceFactor={labelDistance} zIndexRange={[12, 0]} wrapperClass="cf-html">
         <button
           type="button"
           className={selected ? "cf-label is-selected" : "cf-label"}

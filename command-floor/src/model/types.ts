@@ -27,6 +27,7 @@ export interface ProjectPad {
   action_item: string | null;
   connected_db_ids: string[];
   open_pr_count: number | null;
+  repos: string[];
 }
 
 export interface DatabaseRack {

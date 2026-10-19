@@ -15,14 +15,17 @@ interface ArcProps {
   opacity: number;
   animate: boolean;
   rolling: boolean;
+  dashSize: number;
+  gapSize: number;
 }
 
-export function Arc({ x1, y1, z1, x2, y2, z2, color, opacity, animate, rolling }: ArcProps) {
+export function Arc({ x1, y1, z1, x2, y2, z2, color, opacity, animate, rolling, dashSize, gapSize }: ArcProps) {
   const ref = useRef<Line2>(null);
   const points = useMemo(() => {
+    const span = Math.hypot(x2 - x1, y2 - y1, z2 - z1);
     const curve = new QuadraticBezierCurve3(
       new Vector3(x1, y1, z1),
-      new Vector3((x1 + x2) / 2, Math.max(y1, y2) + 1.25, (z1 + z2) / 2),
+      new Vector3((x1 + x2) / 2, Math.max(y1, y2) + Math.max(span * 0.2, 0.6), (z1 + z2) / 2),
       new Vector3(x2, y2, z2),
     );
     return curve.getPoints(22);
@@ -42,8 +45,8 @@ export function Arc({ x1, y1, z1, x2, y2, z2, color, opacity, animate, rolling }
       points={points}
       color={color}
       dashed
-      dashSize={0.16}
-      gapSize={0.11}
+      dashSize={dashSize}
+      gapSize={gapSize}
       lineWidth={2}
       worldUnits={false}
       transparent

@@ -2,7 +2,7 @@
 
 **Live URL:** https://sambar1106.github.io/org-dashboard/
 
-The home page is **Samuel's Virtual Command Floor**, a 3D view of project pads, the data vault, and agent pawns. The original live org floor plan is still at [live.html](live.html).
+The home page is **Virtual Command Floor**, a 3D view of project pads, the data vault, and agent pawns. The title and the objects come from `data/command-floor.json`. The original live org floor plan is still at [live.html](live.html).
 
 ## Command floor
 
@@ -19,7 +19,7 @@ npm run build          # writes index.html and assets/ for GitHub Pages
 npm run test:e2e       # Playwright against the published files
 ```
 
-The seed uses generic system labels only: no addresses, tokens, client names, or personal data. `Simulate ED Morning Rollup` reloads that seed and animates the floor. It does not run health checks.
+The published seed has no IP addresses and no email addresses. `Simulate ED Morning Rollup` reloads that seed and animates the floor. It does not run health checks.
 
 ## Live org
 

@@ -1,348 +1,191 @@
 {
-  "title": "Samuel's Virtual Command Floor",
-  "subtitle": "Oct 19 Inventory & Tailscale Mesh Ecosystem",
+  "title": "Virtual Command Floor",
+  "subtitle": "Projects, databases and AI agents - seed from the Oct 19, 2026 inventory",
   "project_pads": [
     {
-      "id": "sam-erp",
-      "erp_id": "ERP #1",
-      "name": "Sam ERP App",
-      "stage": "app / build",
-      "level": "WARNING",
-      "pad_color": "#2f6fed",
-      "position": { "x": -1.25, "y": 0, "z": 0.45 },
-      "repos_label": "app repo · 3 open",
-      "hosting_label": "app-host-1",
-      "status_label": "Live · backup needs attention",
-      "action_item": "Reconnect the shared drive and review the dry run",
-      "connected_db_ids": ["sam-erp-sqlite", "odoo"],
-      "open_pr_count": 3
+      "id": "sam-erp", "erp_id": "1", "name": "Sam ERP App", "stage": "Entregado", "level": "WARNING",
+      "pad_color": "#3b82f6", "position": {"x": -14, "y": 0, "z": -14},
+      "repos_label": "sam-erp (private)", "hosting_label": "DigitalOcean",
+      "status_label": "Live - leave as is",
+      "action_item": "Reconnect Google Drive backups (failing since Oct 16); move the Google app to production",
+      "connected_db_ids": ["sam-erp-db", "odoo"], "open_pr_count": 1, "repos": ["sam-erp"]
     },
     {
-      "id": "mge-triage",
-      "erp_id": "ERP #2",
-      "name": "MGE Triage",
-      "stage": "triage",
-      "level": "CRITICAL",
-      "pad_color": "#d61f3c",
-      "position": { "x": -3.35, "y": 0, "z": 1.15 },
-      "repos_label": "triage repo · 2 open",
-      "hosting_label": "triage-host-1",
-      "status_label": "Stalled · import rows stuck",
-      "action_item": "Clear the stuck import rows before the next rollup",
-      "connected_db_ids": ["mge-csvs"],
-      "open_pr_count": 2
+      "id": "division-one-bots", "erp_id": "2", "name": "Division One Bots", "stage": "En progreso", "level": "WARNING",
+      "pad_color": "#a855f7", "position": {"x": 0, "y": 0, "z": -14},
+      "repos_label": "division-one-bots (private), org-dashboard (public), genshin-build-db (private)",
+      "hosting_label": "GitHub Pages + bot box",
+      "status_label": "Live",
+      "action_item": "Game Buddy not reporting; review division-one-bots PRs #15-#19 and genshin-build-db PR #1",
+      "connected_db_ids": ["sam-erp-db", "sam-erp-box-copy"], "open_pr_count": 6,
+      "repos": ["division-one-bots", "org-dashboard", "genshin-build-db"]
     },
     {
-      "id": "tax",
-      "erp_id": "ERP #3",
-      "name": "Tax",
-      "stage": "review",
-      "level": "WARNING",
-      "pad_color": "#2f6fed",
-      "position": { "x": -3.45, "y": 0, "z": -1.2 },
-      "repos_label": "review repo · 2 open",
-      "hosting_label": "review-host-1",
-      "status_label": "Waiting on a checklist",
-      "action_item": "Approve the checklist",
-      "connected_db_ids": ["sam-erp-sqlite"],
-      "open_pr_count": 2
+      "id": "loom", "erp_id": "4", "name": "Loom (store builder)", "stage": "En progreso", "level": "WARNING",
+      "pad_color": "#f97316", "position": {"x": 14, "y": 0, "z": -14},
+      "repos_label": "loom (public), loom-api (private)", "hosting_label": "GitHub Pages + Windows PC",
+      "status_label": "Backend in review",
+      "action_item": "Review loom-api PRs #1 and #2; Stripe setup; sign-in UI; repo visibility",
+      "connected_db_ids": ["loom-postgres"], "open_pr_count": 2, "repos": ["loom", "loom-api"]
     },
     {
-      "id": "loom",
-      "erp_id": "ERP #4",
-      "name": "Loom",
-      "stage": "live",
-      "level": "WARNING",
-      "pad_color": "#2f6fed",
-      "position": { "x": -2.05, "y": 0, "z": -3.05 },
-      "repos_label": "loom repo · 2 open",
-      "hosting_label": "loom-host-1",
-      "status_label": "Live · schema note open",
+      "id": "orchestrator", "erp_id": "5", "name": "Orchestrator", "stage": "Nuevo", "level": "WARNING",
+      "pad_color": "#14b8a6", "position": {"x": -14, "y": 0, "z": 0},
+      "repos_label": "orchestrator (private)", "hosting_label": "None yet",
+      "status_label": "Plan in review (PR #1)",
+      "action_item": "Review the plan; go/no-go on the Langfuse mockup",
+      "connected_db_ids": [], "open_pr_count": 1, "repos": ["orchestrator"]
+    },
+    {
+      "id": "windows-pc", "erp_id": "6", "name": "Windows PC workspace", "stage": "En progreso", "level": "WARNING",
+      "pad_color": "#64748b", "position": {"x": 0, "y": 0, "z": 0},
+      "repos_label": "Local clones: loom, loom-api, orchestrator", "hosting_label": "Windows PC",
+      "status_label": "Setting up",
+      "action_item": "Confirm the firewall blocks Postgres port 5432; Drive copy of backups; daily health check",
+      "connected_db_ids": ["loom-postgres"], "open_pr_count": 0, "repos": []
+    },
+    {
+      "id": "mge-triage-hub", "erp_id": "7", "name": "MGE Triage Hub", "stage": "Entregado", "level": "CRITICAL",
+      "pad_color": "#ef4444", "position": {"x": 14, "y": 0, "z": 0},
+      "repos_label": "mge-triage-hub (public)", "hosting_label": "GitHub Pages",
+      "status_label": "Live, scraper failing",
+      "action_item": "Fix the nightly scraper (6 open 'scraper failed' issues, latest Oct 19)",
+      "connected_db_ids": ["mge-data"], "open_pr_count": 0, "repos": ["mge-triage-hub"]
+    },
+    {
+      "id": "daykodee", "erp_id": "W1", "name": "Daykodee / TakeOD website", "stage": "Client review", "level": "WARNING",
+      "pad_color": "#eab308", "position": {"x": -14, "y": 0, "z": 14},
+      "repos_label": "takeod-site, daykodee-home (public)", "hosting_label": "Wix + GitHub Pages",
+      "status_label": "Live, launch items open",
+      "action_item": "Wix plan + payments; products from the client; EN/ES; test order",
+      "connected_db_ids": [], "open_pr_count": 0, "repos": ["takeod-site", "daykodee-home"]
+    },
+    {
+      "id": "gold-elite", "erp_id": "W2", "name": "Gold Elite", "stage": "Planning", "level": "IDLE",
+      "pad_color": "#ca8a04", "position": {"x": 0, "y": 0, "z": 14},
+      "repos_label": "gold-elite-landing (public), Gold-Elite-Website (private, empty)",
+      "hosting_label": "GitHub Pages",
+      "status_label": "Idle since Oct 11",
       "action_item": null,
-      "connected_db_ids": ["loom-postgres"],
-      "open_pr_count": 2
+      "connected_db_ids": [], "open_pr_count": 0, "repos": ["gold-elite-landing", "Gold-Elite-Website"]
     },
     {
-      "id": "orchestrator",
-      "erp_id": "ERP #5",
-      "name": "Orchestrator",
-      "stage": "plan",
-      "level": "HEALTHY",
-      "pad_color": "#178a45",
-      "position": { "x": 0.55, "y": 0.18, "z": -1.4 },
-      "repos_label": "hub repo · 1 open",
-      "hosting_label": "hub-host-1",
-      "status_label": "Healthy · coordinating the floor",
-      "action_item": null,
-      "connected_db_ids": ["loom-postgres", "odoo"],
-      "open_pr_count": 1
-    },
-    {
-      "id": "web",
-      "erp_id": "ERP #6",
-      "name": "Web",
-      "stage": "live",
-      "level": "WARNING",
-      "pad_color": "#2f6fed",
-      "position": { "x": 3.05, "y": 0, "z": -2.65 },
-      "repos_label": "web repo · 2 open",
-      "hosting_label": "web-host-1",
-      "status_label": "Live · change in review",
-      "action_item": "Review the open change",
-      "connected_db_ids": ["odoo"],
-      "open_pr_count": 2
-    },
-    {
-      "id": "content",
-      "erp_id": "ERP #7",
-      "name": "Content",
-      "stage": "plan",
-      "level": "HEALTHY",
-      "pad_color": "#178a45",
-      "position": { "x": 2.85, "y": 0, "z": 0.2 },
-      "repos_label": "content repo · none open",
-      "hosting_label": "content-host-1",
-      "status_label": "Healthy · outline in draft",
-      "action_item": null,
-      "connected_db_ids": ["mge-csvs"],
-      "open_pr_count": 0
+      "id": "samuel-learn", "erp_id": "W3", "name": "samuel-learn", "stage": "Planning", "level": "WARNING",
+      "pad_color": "#22c55e", "position": {"x": 14, "y": 0, "z": 14},
+      "repos_label": "samuel-learn (public)", "hosting_label": "GitHub Pages",
+      "status_label": "Live; 4 open PRs",
+      "action_item": "Review PRs #2, #4, #5, #6; Spanish review",
+      "connected_db_ids": [], "open_pr_count": 4, "repos": ["samuel-learn"]
     }
   ],
   "database_racks": [
     {
-      "id": "sam-erp-sqlite",
-      "name": "Sam ERP SQLite",
-      "engine": "SQLite",
-      "host": "app-db-1",
-      "status_label": "Backup needs attention",
-      "level": "WARNING",
-      "position": { "x": -2.25, "y": 0, "z": 3.7 },
-      "action_item": "Choose a new backup folder"
+      "id": "sam-erp-db", "name": "Sam ERP", "engine": "SQLite", "host": "DigitalOcean",
+      "status_label": "Live; Google Drive nightly backup failing since Oct 16 (last good Oct 15)",
+      "level": "CRITICAL", "position": {"x": -21, "y": 0, "z": -24},
+      "action_item": "Reconnect Google Drive in Sam ERP"
     },
     {
-      "id": "loom-postgres",
-      "name": "Loom Postgres 16",
-      "engine": "Postgres 16",
-      "host": "db-host-1",
-      "status_label": "Up · review the listener",
-      "level": "WARNING",
-      "position": { "x": -0.75, "y": 0, "z": 3.7 },
+      "id": "loom-postgres", "name": "Loom Postgres", "engine": "PostgreSQL 16", "host": "Windows PC",
+      "status_label": "Running; listens on all addresses; daily 3 AM backup",
+      "level": "WARNING", "position": {"x": -7, "y": 0, "z": -24},
+      "action_item": "Check the firewall or limit Postgres to localhost / Tailscale"
+    },
+    {
+      "id": "mge-data", "name": "MGE hub data", "engine": "Encrypted CSV", "host": "GitHub repo",
+      "status_label": "Scraper failing", "level": "WARNING", "position": {"x": 7, "y": 0, "z": -24},
+      "action_item": "Fix the scraper so the data refreshes"
+    },
+    {
+      "id": "odoo", "name": "Odoo", "engine": "Odoo SaaS", "host": "Odoo cloud",
+      "status_label": "Connected through JSON-RPC", "level": "HEALTHY", "position": {"x": 21, "y": 0, "z": -24},
       "action_item": null
     },
     {
-      "id": "mge-csvs",
-      "name": "MGE CSVs",
-      "engine": "CSV files",
-      "host": "file-host-1",
-      "status_label": "Import rows stuck",
-      "level": "CRITICAL",
-      "position": { "x": 0.75, "y": 0, "z": 3.7 },
-      "action_item": "Clear the stuck import rows"
-    },
-    {
-      "id": "odoo",
-      "name": "Odoo",
-      "engine": "Odoo",
-      "host": "ops-host-1",
-      "status_label": "Healthy",
-      "level": "HEALTHY",
-      "position": { "x": 2.25, "y": 0, "z": 3.7 },
-      "action_item": null
+      "id": "sam-erp-box-copy", "name": "Sam ERP box copy", "engine": "SQLite", "host": "Bot box",
+      "status_label": "Stale reference copy (snapshots up to Oct 15)", "level": "IDLE",
+      "position": {"x": 0, "y": 0, "z": -30}, "action_item": null
     }
   ],
   "agents": [
     {
-      "id": "review-bot",
-      "name": "Review bot",
-      "bot_type": "worker",
-      "role": "reviewer",
-      "assigned_pad_id": "sam-erp",
-      "state": "waiting_samuel",
-      "status": "Dry run is ready",
-      "waiting_on_samuel": "Review the dry run",
-      "offset": { "x": -0.38, "z": 0.22 }
+      "id": "ed", "name": "ED", "bot_type": "Grok Bot", "role": "Executive hub, routes all work",
+      "assigned_pad_id": "division-one-bots", "state": "active", "status": "Active",
+      "waiting_on_samuel": null, "offset": {"x": 0, "z": 3}
     },
     {
-      "id": "backup-bot",
-      "name": "Backup bot",
-      "bot_type": "monitor",
-      "role": "operator",
-      "assigned_pad_id": "sam-erp",
-      "state": "waiting_samuel",
-      "status": "Backup target missing",
-      "waiting_on_samuel": "Confirm the backup target",
-      "offset": { "x": 0.38, "z": 0.22 }
+      "id": "web-dev", "name": "Web Dev", "bot_type": "Grok Bot", "role": "Websites, Loom front end, Stitch mockups",
+      "assigned_pad_id": "loom", "state": "waiting_samuel",
+      "status": "Nothing running; Loom PR #1 merged; Daykodee PR #10 live",
+      "waiting_on_samuel": "samuel-learn PR #4; Daykodee Wix plan, payments and products; Langfuse go/no-go",
+      "offset": {"x": -3, "z": 3}
     },
     {
-      "id": "ops-bot",
-      "name": "Ops bot",
-      "bot_type": "worker",
-      "role": "operator",
-      "assigned_pad_id": "sam-erp",
-      "state": "active",
-      "status": "Watching the build",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0, "z": -0.34 }
+      "id": "tax-ic", "name": "Tax I/C", "bot_type": "Grok Bot", "role": "Tax prep and filing",
+      "assigned_pad_id": "division-one-bots", "state": "waiting_samuel", "status": "Nothing active",
+      "waiting_on_samuel": "Filing details: e-file or paper, confirmation IDs, amounts, one client return",
+      "offset": {"x": -3, "z": 0}
     },
     {
-      "id": "triage-lead",
-      "name": "Triage lead",
-      "bot_type": "worker",
-      "role": "triage",
-      "assigned_pad_id": "mge-triage",
-      "state": "red_alert",
-      "status": "Queue stalled",
-      "waiting_on_samuel": null,
-      "offset": { "x": -0.34, "z": 0.2 }
+      "id": "content-social", "name": "Content & Social", "bot_type": "Grok Bot", "role": "Content and social media",
+      "assigned_pad_id": "division-one-bots", "state": "waiting_samuel",
+      "status": "Loom content package waiting on picks; nothing posted",
+      "waiting_on_samuel": "Meta Business account; OK to say 'Loom' publicly; brand answers",
+      "offset": {"x": 3, "z": 0}
     },
     {
-      "id": "triage-check",
-      "name": "Triage check",
-      "bot_type": "monitor",
-      "role": "checker",
-      "assigned_pad_id": "mge-triage",
-      "state": "red_alert",
-      "status": "Failed rows need a look",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0.34, "z": 0.2 }
+      "id": "financial-assistant", "name": "Financial Assistant (Claims Hunter)", "bot_type": "Grok Bot",
+      "role": "Claims and finance", "assigned_pad_id": "division-one-bots", "state": "waiting_samuel",
+      "status": "Nothing active",
+      "waiting_on_samuel": "First Claims intake answer; verify one claim (deadline Jan 31, 2027)",
+      "offset": {"x": -3, "z": -3}
     },
     {
-      "id": "triage-helper",
-      "name": "Triage helper",
-      "bot_type": "assistant",
-      "role": "helper",
-      "assigned_pad_id": "mge-triage",
-      "state": "waiting_samuel",
-      "status": "Needs a decision",
-      "waiting_on_samuel": "Decide what to do with the stuck rows",
-      "offset": { "x": 0, "z": -0.32 }
+      "id": "professor", "name": "Professor", "bot_type": "Grok Bot", "role": "samuel-learn lessons",
+      "assigned_pad_id": "samuel-learn", "state": "waiting_samuel", "status": "PR #6 draft",
+      "waiting_on_samuel": "Merge #5 and #6; review 5 terms", "offset": {"x": 0, "z": 3}
     },
     {
-      "id": "checklist-bot",
-      "name": "Checklist bot",
-      "bot_type": "worker",
-      "role": "reviewer",
-      "assigned_pad_id": "tax",
-      "state": "waiting_samuel",
-      "status": "Checklist is ready",
-      "waiting_on_samuel": "Approve the checklist",
-      "offset": { "x": -0.32, "z": 0.16 }
+      "id": "game-buddy", "name": "Game Buddy", "bot_type": "Grok Bot", "role": "Games (Genshin build DB)",
+      "assigned_pad_id": "division-one-bots", "state": "red_alert", "status": "Not reported Oct 18 and 19",
+      "waiting_on_samuel": null, "offset": {"x": 3, "z": -3}
     },
     {
-      "id": "intake-bot",
-      "name": "Intake bot",
-      "bot_type": "worker",
-      "role": "intake",
-      "assigned_pad_id": "tax",
-      "state": "active",
-      "status": "Sorting intake",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0.32, "z": -0.18 }
+      "id": "mge-assistant", "name": "MGE Assistant", "bot_type": "Grok Bot", "role": "MGE triage and follow-ups",
+      "assigned_pad_id": "mge-triage-hub", "state": "waiting_samuel", "status": "Nothing active; follow-ups paused",
+      "waiting_on_samuel": "Next list photo or request", "offset": {"x": 0, "z": 3}
     },
     {
-      "id": "schema-bot",
-      "name": "Schema bot",
-      "bot_type": "worker",
-      "role": "reviewer",
-      "assigned_pad_id": "loom",
-      "state": "waiting_samuel",
-      "status": "Schema note is open",
-      "waiting_on_samuel": "Review the schema note",
-      "offset": { "x": -0.3, "z": 0.14 }
+      "id": "claude-lane", "name": "Claude lane", "bot_type": "GitHub Actions workflow (Claude)",
+      "role": "ED CLAUDE tickets in sam-erp and division-one-bots", "assigned_pad_id": "sam-erp",
+      "state": "active", "status": "Active", "waiting_on_samuel": null, "offset": {"x": -3, "z": 3}
     },
     {
-      "id": "database-bot",
-      "name": "Database bot",
-      "bot_type": "monitor",
-      "role": "watcher",
-      "assigned_pad_id": "loom",
-      "state": "active",
-      "status": "Watching the database",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0.32, "z": -0.16 }
+      "id": "sam-erp-ai-core", "name": "Sam ERP AI Core", "bot_type": "Gemini API (free tier)", "role": "In-app AI",
+      "assigned_pad_id": "sam-erp", "state": "idle", "status": "Configured", "waiting_on_samuel": null,
+      "offset": {"x": 3, "z": 3}
     },
     {
-      "id": "hub-bot",
-      "name": "Hub bot",
-      "bot_type": "assistant",
-      "role": "coordinator",
-      "assigned_pad_id": "orchestrator",
-      "state": "active",
-      "status": "Coordinating the floor",
-      "waiting_on_samuel": null,
-      "offset": { "x": -0.36, "z": 0.16 }
+      "id": "cursor-cloud", "name": "Cursor cloud agents", "bot_type": "Cursor Pro+",
+      "role": "PR builds: Loom backend, security review, orchestrator plan, sign-in UI",
+      "assigned_pad_id": "orchestrator", "state": "active", "status": "Several running",
+      "waiting_on_samuel": null, "offset": {"x": 0, "z": 3}
     },
     {
-      "id": "schedule-bot",
-      "name": "Schedule bot",
-      "bot_type": "worker",
-      "role": "scheduler",
-      "assigned_pad_id": "orchestrator",
-      "state": "idle",
-      "status": "Idle until the next rollup",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0.36, "z": 0.16 }
+      "id": "claude-code", "name": "Claude Code", "bot_type": "CLI on the Windows PC", "role": "Local coding",
+      "assigned_pad_id": "windows-pc", "state": "active", "status": "Signed in", "waiting_on_samuel": null,
+      "offset": {"x": -3, "z": 3}
     },
     {
-      "id": "relay-bot",
-      "name": "Relay bot",
-      "bot_type": "monitor",
-      "role": "relay",
-      "assigned_pad_id": "orchestrator",
-      "state": "idle",
-      "status": "Idle",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0, "z": -0.34 }
+      "id": "cursor-desktop", "name": "Cursor (desktop)", "bot_type": "IDE on the Windows PC", "role": "Local coding",
+      "assigned_pad_id": "windows-pc", "state": "idle", "status": "Signed in", "waiting_on_samuel": null,
+      "offset": {"x": 3, "z": 3}
     },
     {
-      "id": "web-bot",
-      "name": "Web bot",
-      "bot_type": "worker",
-      "role": "builder",
-      "assigned_pad_id": "web",
-      "state": "waiting_samuel",
-      "status": "Change is ready",
-      "waiting_on_samuel": "Review the open change",
-      "offset": { "x": -0.3, "z": 0.16 }
-    },
-    {
-      "id": "pages-bot",
-      "name": "Pages bot",
-      "bot_type": "monitor",
-      "role": "publisher",
-      "assigned_pad_id": "web",
-      "state": "active",
-      "status": "Serving the public page",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0.32, "z": -0.16 }
-    },
-    {
-      "id": "outline-bot",
-      "name": "Outline bot",
-      "bot_type": "assistant",
-      "role": "writer",
-      "assigned_pad_id": "content",
-      "state": "waiting_samuel",
-      "status": "Outline is ready",
-      "waiting_on_samuel": "Approve the outline",
-      "offset": { "x": -0.28, "z": 0.14 }
-    },
-    {
-      "id": "research-bot",
-      "name": "Research bot",
-      "bot_type": "worker",
-      "role": "research",
-      "assigned_pad_id": "content",
-      "state": "idle",
-      "status": "Idle",
-      "waiting_on_samuel": null,
-      "offset": { "x": 0.32, "z": -0.16 }
+      "id": "antigravity", "name": "Antigravity", "bot_type": "IDE on the PC + CLI runner on the Mac",
+      "role": "Local coding, MGE alerts", "assigned_pad_id": "windows-pc", "state": "waiting_samuel",
+      "status": "Signed in on PC; Mac runner idle", "waiting_on_samuel": "Remove the duplicate install?",
+      "offset": {"x": 0, "z": -3}
     }
-  ],
-  "checks": {
-    "postgres": "not_run",
-    "loom": "not_run",
-    "github": "not_run",
-    "checked_at": null
-  }
+  ]
 }

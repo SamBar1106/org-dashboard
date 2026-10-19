@@ -46,7 +46,7 @@ async function expectNoHorizontalScroll(page: Page) {
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Samuel's Virtual Command Floor");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Virtual Command Floor");
   await expect(page.getByTestId("inspector-title")).toHaveText("Sam ERP App");
   await expect(page.getByTestId("viewport")).toHaveAttribute("data-framed", "true");
 });
@@ -85,15 +85,16 @@ test("each filter dims some objects and a pad click updates the inspector", asyn
   }
 
   await page.getByTestId("pad-label-loom").click();
-  await expect(page.getByTestId("inspector-title")).toHaveText("Loom");
-  await expect(page.locator(".meta")).toContainText("ERP #4");
+  await expect(page.getByTestId("inspector-title")).toHaveText("Loom (store builder)");
+  await expect(page.locator(".meta")).toContainText("4");
+  await expect(page.locator(".meta")).toContainText("En progreso");
   await expect(page.locator(".meta")).toContainText("Level:");
 
   await page.getByTestId("rack-label-odoo").click();
   await expect(page.getByTestId("inspector-title")).toHaveText("Odoo");
 
-  await page.locator("nav.sr-only button", { hasText: "Review bot" }).evaluate((element: HTMLButtonElement) => element.click());
-  await expect(page.getByTestId("inspector-title")).toHaveText("Review bot");
+  await page.locator("nav.sr-only button", { hasText: "Web Dev" }).evaluate((element: HTMLButtonElement) => element.click());
+  await expect(page.getByTestId("inspector-title")).toHaveText("Web Dev");
 
   await page.getByTestId("rollup").click();
   await expect(page.getByTestId("viewport")).toHaveClass(/is-rolling/);

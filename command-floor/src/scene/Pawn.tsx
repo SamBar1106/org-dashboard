@@ -13,10 +13,11 @@ interface PawnProps {
   opacity: number;
   animate: boolean;
   selected: boolean;
+  scale: number;
   onSelect: () => void;
 }
 
-export function PawnMesh({ agent, x, y, z, opacity, animate, selected, onSelect }: PawnProps) {
+export function PawnMesh({ agent, x, y, z, opacity, animate, selected, scale, onSelect }: PawnProps) {
   const orb = useRef<Mesh>(null);
   const phase = useMemo(() => phaseOf(agent.id), [agent.id]);
   useFrame(({ clock }) => {
@@ -29,7 +30,7 @@ export function PawnMesh({ agent, x, y, z, opacity, animate, selected, onSelect 
     onSelect();
   };
   return (
-    <group position={[x, y, z]}>
+    <group position={[x, y, z]} scale={scale}>
       <mesh geometry={pawnGeometry} position={[0, 0.29, 0]} onClick={choose} onPointerOver={showPointer} onPointerOut={hidePointer}>
         <meshStandardMaterial
           color={selected ? "#3a4454" : "#2a2e38"}

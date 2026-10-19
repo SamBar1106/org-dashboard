@@ -22,6 +22,13 @@ const COLOR = /^#[0-9a-fA-F]{6}$/;
 const MAX_PADS = 32;
 const MAX_RACKS = 16;
 const MAX_AGENTS = 64;
+const MAX_REPOS = 32;
+const NOT_RUN_CHECKS: Checks = {
+  postgres: "not_run",
+  loom: "not_run",
+  github: "not_run",
+  checked_at: null,
+};
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -100,13 +107,18 @@ function reqCheck(value: unknown, path: string): CheckStatus {
   return value as CheckStatus;
 }
 
+function parseRepos(value: unknown, path: string): string[] {
+  if (!Array.isArray(value) || value.length > MAX_REPOS) throw new Error(`${path}: expected a short list`);
+  return value.map((item, index) => reqString(item, `${path}[${index}]`));
+}
+
 function parsePad(value: unknown, index: number): ProjectPad {
   const path = `project_pads[${index}]`;
   if (!isRecord(value)) throw new Error(`${path}: expected object`);
   assertKeys(
     value,
     ["id", "erp_id", "name", "stage", "level", "pad_color", "position", "repos_label", "hosting_label", "status_label", "action_item", "connected_db_ids", "open_pr_count"],
-    [],
+    ["repos"],
     path,
   );
   if (!Array.isArray(value.connected_db_ids) || value.connected_db_ids.length > 8) {
@@ -135,6 +147,7 @@ function parsePad(value: unknown, index: number): ProjectPad {
     action_item: nullString(value.action_item, `${path}.action_item`),
     connected_db_ids: value.connected_db_ids.map((id, link) => reqSlug(id, `${path}.connected_db_ids[${link}]`)),
     open_pr_count: openPr,
+    repos: value.repos === undefined ? [] : parseRepos(value.repos, `${path}.repos`),
   };
 }
 
@@ -172,6 +185,7 @@ function parseAgent(value: unknown, index: number): AgentPawn {
 }
 
 function parseChecks(value: unknown): Checks {
+  if (value === undefined) return { ...NOT_RUN_CHECKS };
   if (!isRecord(value)) throw new Error("checks: expected object");
   assertKeys(value, ["postgres", "loom", "github", "checked_at"], [], "checks");
   let checkedAt: string | null = null;
@@ -189,7 +203,7 @@ function parseChecks(value: unknown): Checks {
 
 export function parseCommandFloor(input: unknown): CommandFloorData {
   if (!isRecord(input)) throw new Error("command floor: expected object");
-  assertKeys(input, ["title", "subtitle", "project_pads", "database_racks", "agents", "checks"], ["counts"], "command floor");
+  assertKeys(input, ["title", "subtitle", "project_pads", "database_racks", "agents"], ["checks", "counts"], "command floor");
   if (!Array.isArray(input.project_pads) || input.project_pads.length < 1 || input.project_pads.length > MAX_PADS) {
     throw new Error("project_pads: expected a short list");
   }

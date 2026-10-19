@@ -7,15 +7,16 @@ interface PadProps {
   pad: ProjectPad;
   opacity: number;
   selected: boolean;
+  scale: number;
+  labelDistance: number;
   onSelect: () => void;
 }
 
-export function PadMesh({ pad, opacity, selected, onSelect }: PadProps) {
+export function PadMesh({ pad, opacity, selected, scale, labelDistance, onSelect }: PadProps) {
   const choose = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
     onSelect();
   };
-  const scale = pad.id === "orchestrator" ? 1.16 : 1;
   return (
     <group position={[pad.position.x, pad.position.y, pad.position.z]} scale={scale}>
       <mesh geometry={padGeometry} position={[0, 0.06, 0]} onClick={choose} onPointerOver={showPointer} onPointerOut={hidePointer}>
@@ -48,7 +49,7 @@ export function PadMesh({ pad, opacity, selected, onSelect }: PadProps) {
       <mesh geometry={glowGeometry} position={[0, 0.44, 0.28]}>
         <meshBasicMaterial color="#5cefff" toneMapped={false} transparent opacity={0.28 * opacity} depthWrite={false} />
       </mesh>
-      <Html position={[0, 1.12, 0]} center distanceFactor={11} zIndexRange={[12, 0]} wrapperClass="cf-html">
+      <Html position={[0, 1.12, 0]} center distanceFactor={labelDistance} zIndexRange={[12, 0]} wrapperClass="cf-html">
         <button
           type="button"
           className={selected ? "cf-label is-selected" : "cf-label"}

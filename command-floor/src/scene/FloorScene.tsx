@@ -1,10 +1,11 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { Grid, Html, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { TOUCH } from "three";
 import { DIMMED_OPACITY, arcId, objectOpacity } from "../model/match";
 import type { FilterId, FloorModel, Selection } from "../model/types";
 import { Arc } from "./Arc";
+import { frameScene } from "./layout";
 import { PadMesh } from "./Pad";
 import { PawnMesh } from "./Pawn";
 import { RackMesh } from "./Rack";
@@ -21,14 +22,15 @@ interface FloorSceneProps {
 }
 
 export function FloorScene({ floor, filter, selection, animate, rolling, frameloop, onSelect, onFrame }: FloorSceneProps) {
-  const vault = vaultBounds(floor);
+  const layout = useMemo(() => frameScene(floor), [floor]);
+  const vault = layout.vault;
   const vaultOpacity = floor.database_racks.every((rack) => objectOpacity("rack", rack.id, filter, floor) < 1) ? DIMMED_OPACITY : 1;
   return (
     <Canvas
       dpr={[1, 1.75]}
       performance={{ min: 0.5 }}
       frameloop={frameloop}
-      camera={{ position: [0.6, 6.4, 8.6], fov: 36, near: 0.1, far: 70 }}
+      camera={{ position: layout.cameraPosition, fov: layout.fov, near: layout.near, far: layout.far }}
       gl={{ antialias: false, alpha: false, stencil: false, powerPreference: "high-performance" }}
       onCreated={({ gl }) => gl.setClearColor("#101012")}
     >
@@ -37,22 +39,22 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
       <hemisphereLight args={["#c5d4ea", "#1a1a1e", 0.55]} />
       <directionalLight position={[4, 10, 6]} intensity={1.45} />
       <Grid
-        args={[30, 30]}
-        position={[0, 0, 0]}
-        cellSize={0.5}
+        args={[layout.grid.size, layout.grid.size]}
+        position={[layout.center[0], 0, layout.center[2]]}
+        cellSize={layout.grid.cell}
         cellThickness={0.7}
         cellColor="#4a4a54"
-        sectionSize={2.5}
+        sectionSize={layout.grid.section}
         sectionThickness={1.15}
         sectionColor="#6d6d78"
-        fadeDistance={16}
+        fadeDistance={layout.grid.fade}
         fadeStrength={1.35}
         infiniteGrid={false}
       />
       {vault ? (
         <group>
-          <mesh position={[vault.x, 0.08, vault.z]}>
-            <boxGeometry args={[vault.width, 0.16, vault.depth]} />
+          <mesh position={[vault.x, vault.thickness / 2, vault.z]}>
+            <boxGeometry args={[vault.width, vault.thickness, vault.depth]} />
             <meshStandardMaterial
               color="#0b2a66"
               emissive="#123f8a"
@@ -64,7 +66,13 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
               depthWrite={vaultOpacity === 1}
             />
           </mesh>
-          <Html position={[vault.x, 0.4, vault.z + vault.depth / 2 - 0.2]} center distanceFactor={12} zIndexRange={[8, 0]} wrapperClass="cf-html">
+          <Html
+            position={[vault.x, vault.thickness + layout.meshScale * 0.2, vault.z + vault.depth / 2]}
+            center
+            distanceFactor={layout.labelDistance}
+            zIndexRange={[8, 0]}
+            wrapperClass="cf-html"
+          >
             <div className="vault-tag" style={{ opacity: vaultOpacity }}>DATA VAULT</div>
           </Html>
         </group>
@@ -77,15 +85,17 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
             <Arc
               key={arcId(rackId, pad.id)}
               x1={rack.position.x}
-              y1={1.35}
+              y1={rack.position.y + 1.35 * layout.meshScale}
               z1={rack.position.z}
               x2={pad.position.x}
-              y2={0.4 + pad.position.y}
+              y2={pad.position.y + 0.4 * layout.meshScale}
               z2={pad.position.z}
               color={pad.pad_color}
               opacity={objectOpacity("arc", arcId(rackId, pad.id), filter, floor)}
               animate={animate}
               rolling={rolling}
+              dashSize={layout.dashSize}
+              gapSize={layout.gapSize}
             />
           );
         }),
@@ -96,6 +106,8 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
           pad={pad}
           opacity={objectOpacity("pad", pad.id, filter, floor)}
           selected={selection.kind === "pad" && selection.id === pad.id}
+          scale={layout.meshScale}
+          labelDistance={layout.labelDistance}
           onSelect={() => onSelect({ kind: "pad", id: pad.id })}
         />
       ))}
@@ -105,6 +117,8 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
           rack={rack}
           opacity={objectOpacity("rack", rack.id, filter, floor)}
           selected={selection.kind === "rack" && selection.id === rack.id}
+          scale={layout.meshScale}
+          labelDistance={layout.labelDistance}
           onSelect={() => onSelect({ kind: "rack", id: rack.id })}
         />
       ))}
@@ -120,6 +134,7 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
             opacity={objectOpacity("pawn", agent.id, filter, floor)}
             animate={animate}
             selected={selection.kind === "pawn" && selection.id === agent.id}
+            scale={layout.meshScale}
             onSelect={() => onSelect({ kind: "pawn", id: agent.id })}
           />
         );
@@ -129,11 +144,11 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
         enableDamping
         dampingFactor={0.09}
         enablePan
-        minDistance={4.5}
-        maxDistance={18}
+        minDistance={layout.minDistance}
+        maxDistance={layout.maxDistance}
         minPolarAngle={0.35}
         maxPolarAngle={Math.PI / 2.15}
-        target={[0, 0.4, 0.55]}
+        target={layout.center}
         touches={{ ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }}
       />
     </Canvas>
@@ -148,24 +163,4 @@ function FramePing({ onFrame }: { onFrame: () => void }) {
     onFrame();
   });
   return null;
-}
-
-function vaultBounds(floor: FloorModel): { x: number; z: number; width: number; depth: number } | null {
-  if (floor.database_racks.length === 0) return null;
-  let minX = Infinity;
-  let maxX = -Infinity;
-  let minZ = Infinity;
-  let maxZ = -Infinity;
-  for (const rack of floor.database_racks) {
-    minX = Math.min(minX, rack.position.x);
-    maxX = Math.max(maxX, rack.position.x);
-    minZ = Math.min(minZ, rack.position.z);
-    maxZ = Math.max(maxZ, rack.position.z);
-  }
-  return {
-    x: (minX + maxX) / 2,
-    z: (minZ + maxZ) / 2,
-    width: Math.max(4.8, maxX - minX + 2.3),
-    depth: Math.max(1.9, maxZ - minZ + 1.7),
-  };
 }
