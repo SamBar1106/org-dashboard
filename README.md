@@ -1,8 +1,29 @@
-# Division One · Live Org dashboard
-
-Public-by-link floor plan of Samuel Barrios's seven-division bot organization. Live start/finish/error/handoff pulses, stuck/missed detection, and a 1h/24h/7d activity timeline.
+# Division One · Org dashboard
 
 **Live URL:** https://sambar1106.github.io/org-dashboard/
+
+The home page is **Virtual Command Floor**, a 3D view of project pads, the data vault, and agent pawns. The title and the objects come from `data/command-floor.json`. The original live org floor plan is still at [live.html](live.html).
+
+## Command floor
+
+Static seed: `data/command-floor.json` (the same shape as `GET /api/command-floor`, without stored counts). Counts for red alerts, waiting on Samuel, open PRs, and the ecosystem total are computed in the browser.
+
+Set `VITE_COMMAND_FLOOR_URL` to an **https** URL at build time to load that endpoint instead. Loopback (`127.0.0.1`, `localhost`) and non-https URLs are ignored so the public Pages build cannot call a machine-local API. See `command-floor/.env.example`.
+
+```bash
+cd command-floor
+npm install
+npm test
+npm run lint
+npm run build          # writes index.html and assets/ for GitHub Pages
+npm run test:e2e       # Playwright against the published files
+```
+
+The published seed has no IP addresses and no email addresses. `Simulate ED Morning Rollup` reloads that seed and animates the floor. It does not run health checks.
+
+## Live org
+
+Public-by-link floor plan of the seven-division bot organization. Live start/finish/error/handoff pulses, stuck/missed detection, and a 1h/24h/7d activity timeline.
 
 > The full share link ends with `#k=<topic>` so the browser can open the live relay. Without it the page still shows the published snapshot and refreshes about every minute; with the link, a snapshot event from the publisher refetches it within seconds of Pages deploying.
 
@@ -24,7 +45,9 @@ This site and every event on the relay are public-by-link. Content is **only** b
 ## Files
 | file | purpose |
 |---|---|
-| `index.html` / `style.css` / `app.js` | single-page dashboard (no build step, no npm deps) |
+| `index.html` / `assets/floor/` | built command floor (source in `command-floor/`) |
+| `data/command-floor.json` | public command-floor seed |
+| `live.html` / `style.css` / `app.js` | live org dashboard (no build step) |
 | `sanitize.js` | client-side event whitelist (mirrors the private-repo sanitizer) |
 | `data/org.json` | divisions, nodes, edges, schedules (from the private repo) |
 | `data/status.json` | rolling 7-day event snapshot |

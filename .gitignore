@@ -2,3 +2,10 @@
 node_modules/
 *.log
 .cache/
+command-floor/dist/
+command-floor/test-results/
+command-floor/playwright-report/
+command-floor/blob-report/
+command-floor/.env
+command-floor/.env.*
+!command-floor/.env.example
