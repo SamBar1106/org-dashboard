@@ -1,35 +1,38 @@
-import { useEffect, useMemo, useState } from "react";
-import { usePageHidden, useReducedMotion } from "./hooks";
-import { defaultSelection, selectionExists, toInspector } from "./model/inspector";
-import { getBundledFloor, refreshedSeed } from "./model/load";
+import { useEffect, useMemo } from "react";
+import { useCompactNav } from "./hooks";
+import { fetchFloor } from "./model/fetchFloor";
 import { sceneObjects } from "./model/match";
-import { rejectionMessage, resolveSource, simulateEndpoint } from "./model/source";
-import { floorFromUnknown } from "./model/validate";
-import type { FilterId, FloorModel, Selection } from "./model/types";
+import { rejectionMessage, resolveSource } from "./model/source";
+import { TOUR_STEP_MS } from "./model/tour";
 import { FloorScene } from "./scene/FloorScene";
 import { SceneBoundary } from "./scene/SceneBoundary";
+import { useDisplayedFloor, useFloor } from "./state/store";
+import { DeckBar } from "./ui/DeckBar";
+import { EditPanel } from "./ui/EditPanel";
 import { FilterBar } from "./ui/FilterBar";
+import { FooterBar } from "./ui/FooterBar";
 import { Header } from "./ui/Header";
+import { HelpDialog } from "./ui/HelpDialog";
 import { Inspector } from "./ui/Inspector";
 import { Legend } from "./ui/Legend";
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    window.setTimeout(resolve, ms);
-  });
-}
+import { Drawer, Sidebar } from "./ui/Sidebar";
+import { TopBar } from "./ui/TopBar";
+import { Views } from "./ui/Views";
 
 export function App() {
-  const initial = useMemo(() => getBundledFloor(), []);
-  const [floor, setFloor] = useState<FloorModel>(initial);
-  const [filter, setFilter] = useState<FilterId>("all");
-  const [selection, setSelection] = useState<Selection>(() => defaultSelection(initial));
-  const [rolling, setRolling] = useState(false);
-  const [note, setNote] = useState("Static seed · checks not run");
-  const [banner, setBanner] = useState<string | null>(null);
-  const [framed, setFramed] = useState(false);
-  const hidden = usePageHidden();
-  const reduce = useReducedMotion();
+  const floor = useDisplayedFloor();
+  const banner = useFloor((state) => state.banner);
+  const nav = useFloor((state) => state.nav);
+  const filter = useFloor((state) => state.filter);
+  const query = useFloor((state) => state.query);
+  const hiddenRacks = useFloor((state) => state.hiddenRacks);
+  const tourActive = useFloor((state) => state.tourActive);
+  const rolling = useFloor((state) => state.rolling);
+  const framed = useFloor((state) => state.framed);
+  const drawerOpen = useFloor((state) => state.drawerOpen);
+  const setDrawer = useFloor((state) => state.setDrawer);
+  const select = useFloor((state) => state.select);
+  const compact = useCompactNav();
 
   useEffect(() => {
     document.title = floor.title;
@@ -38,100 +41,80 @@ export function App() {
   useEffect(() => {
     const source = resolveSource(import.meta.env.VITE_COMMAND_FLOOR_URL);
     const rejected = rejectionMessage(source);
-    if (rejected) setBanner(rejected);
-    if (source.kind !== "remote") return undefined;
+    if (rejected) useFloor.getState().setBanner(rejected);
     let cancel = false;
-    fetch(source.url)
-      .then(async (response) => {
-        if (!response.ok) throw new Error(String(response.status));
-        return floorFromUnknown(await response.json());
-      })
-      .then((next) => {
-        if (cancel) return;
-        setFloor(next);
-        setSelection((current) => (selectionExists(next, current) ? current : defaultSelection(next)));
-        setNote("Live source loaded");
-      })
-      .catch(() => {
-        if (!cancel) setBanner("Live source unavailable. Showing the published seed.");
-      });
+    void fetchFloor(import.meta.env.VITE_COMMAND_FLOOR_URL, "boot").then((result) => {
+      if (cancel || result.kind === "skip") return;
+      if (result.kind === "error") useFloor.getState().setBanner(result.message);
+      if (result.kind === "floor") {
+        useFloor.getState().setBanner(null);
+        useFloor.getState().applyLoaded(result.floor, result.note);
+      }
+    });
     return () => {
       cancel = true;
     };
   }, []);
 
-  async function onRollup() {
-    if (rolling) return;
-    setRolling(true);
-    const started = performance.now();
-    let next = refreshedSeed();
-    let message = "Seed refreshed · checks not run";
-    const source = resolveSource(import.meta.env.VITE_COMMAND_FLOOR_URL);
-    if (source.kind === "remote") {
-      const endpoint = simulateEndpoint(source.url);
-      if (endpoint) {
-        try {
-          const response = await fetch(endpoint, { method: "POST" });
-          if (!response.ok) throw new Error(String(response.status));
-          next = floorFromUnknown(await response.json());
-          message = "Rollup loaded from the configured source";
-        } catch {
-          message = "Seed refreshed · remote rollup unavailable";
-        }
-      }
-    }
-    const elapsed = performance.now() - started;
-    if (elapsed < 900) await delay(900 - elapsed);
-    setFloor(next);
-    setSelection((current) => (selectionExists(next, current) ? current : defaultSelection(next)));
-    setNote(message);
-    setRolling(false);
-  }
+  useEffect(() => {
+    if (!tourActive) return undefined;
+    const id = window.setInterval(() => useFloor.getState().advanceTour(), TOUR_STEP_MS);
+    return () => window.clearInterval(id);
+  }, [tourActive]);
 
-  const objects = useMemo(() => sceneObjects(floor, filter), [floor, filter]);
-  const inspector = toInspector(selection, floor);
-  const frameloop = hidden ? "never" : rolling || !reduce ? "always" : "demand";
-  const animate = !hidden && (rolling || !reduce);
+  useEffect(() => {
+    if (!compact) setDrawer(false);
+  }, [compact, setDrawer]);
+
+  const objects = useMemo(
+    () => sceneObjects(floor, filter, { query, hiddenRackIds: hiddenRacks }),
+    [floor, filter, query, hiddenRacks],
+  );
 
   return (
-    <div className="app">
-      {banner ? <p className="banner" role="status">{banner}</p> : null}
-      <Header title={floor.title} subtitle={floor.subtitle} counts={floor.counts} />
-      <section
-        className={rolling ? "viewport-card is-rolling" : "viewport-card"}
-        data-testid="viewport"
-        data-framed={framed ? "true" : "false"}
-      >
-        <div className="canvas-wrap" role="region" aria-label="Virtual command floor. Drag to orbit. Tap a pad, rack, or agent.">
-          <SceneBoundary>
-            <FloorScene
-              floor={floor}
-              filter={filter}
-              selection={selection}
-              animate={animate}
-              rolling={rolling}
-              frameloop={frameloop}
-              onSelect={setSelection}
-              onFrame={() => setFramed(true)}
-            />
-          </SceneBoundary>
+    <div className={compact ? "shell is-compact" : "shell"} data-compact={compact ? "true" : "false"}>
+      {compact ? null : <Sidebar />}
+      {compact && drawerOpen ? <Drawer onClose={() => setDrawer(false)} /> : null}
+      <div className="workspace">
+        {banner ? <p className="banner" role="status">{banner}</p> : null}
+        <TopBar compact={compact} />
+        <Header />
+        {nav === "home" ? (
+          <>
+            <section
+              className={rolling ? "viewport-card is-rolling" : "viewport-card"}
+              data-testid="viewport"
+              data-framed={framed ? "true" : "false"}
+            >
+              <DeckBar />
+              <div className="canvas-wrap" role="region" aria-label="Virtual command floor. Drag to orbit. Tap a pad, rack, or agent.">
+                <SceneBoundary>
+                  <FloorScene />
+                </SceneBoundary>
+              </div>
+              <Legend />
+            </section>
+            <FilterBar />
+          </>
+        ) : (
+          <Views />
+        )}
+        <EditPanel />
+        {nav === "home" ? <Inspector /> : null}
+        <FooterBar />
+        <HelpDialog />
+        <nav className="sr-only" aria-label="Agents">
+          {floor.agents.map((agent) => (
+            <button key={agent.id} type="button" onClick={() => select({ kind: "pawn", id: agent.id })}>
+              {agent.name}
+            </button>
+          ))}
+        </nav>
+        <div className="opacity-map" data-testid="opacity-map" hidden>
+          {objects.map((item) => (
+            <span key={`${item.kind}:${item.id}`} data-kind={item.kind} data-id={item.id} data-opacity={String(item.opacity)} />
+          ))}
         </div>
-        <Legend racks={floor.database_racks} />
-      </section>
-      <FilterBar counts={floor.counts} filter={filter} rolling={rolling} note={note} onFilter={setFilter} onRollup={() => void onRollup()} />
-      <Inspector model={inspector} onReset={() => setSelection(defaultSelection(floor))} />
-      <p className="privacy">Public view: generic system labels only. No client data.</p>
-      <nav className="sr-only" aria-label="Agents">
-        {floor.agents.map((agent) => (
-          <button key={agent.id} type="button" onClick={() => setSelection({ kind: "pawn", id: agent.id })}>
-            {agent.name}
-          </button>
-        ))}
-      </nav>
-      <div className="opacity-map" data-testid="opacity-map" hidden>
-        {objects.map((item) => (
-          <span key={`${item.kind}:${item.id}`} data-kind={item.kind} data-id={item.id} data-opacity={String(item.opacity)} />
-        ))}
       </div>
     </div>
   );

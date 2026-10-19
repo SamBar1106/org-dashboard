@@ -107,6 +107,27 @@ function reqCheck(value: unknown, path: string): CheckStatus {
   return value as CheckStatus;
 }
 
+function optSpend(value: unknown, path: string): number | null {
+  if (value === null) return null;
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0 || value > 1_000_000_000) {
+    throw new Error(`${path}: expected a spend amount`);
+  }
+  return value;
+}
+
+function optTokens(value: unknown, path: string): number | null {
+  if (value === null) return null;
+  if (typeof value !== "number" || !Number.isInteger(value) || value < 0 || value > 1_000_000_000) {
+    throw new Error(`${path}: expected a token count`);
+  }
+  return value;
+}
+
+function applyUsage(target: { spend_usd?: number | null; tokens?: number | null }, value: Record<string, unknown>, path: string): void {
+  if ("spend_usd" in value) target.spend_usd = optSpend(value.spend_usd, `${path}.spend_usd`);
+  if ("tokens" in value) target.tokens = optTokens(value.tokens, `${path}.tokens`);
+}
+
 function parseRepos(value: unknown, path: string): string[] {
   if (!Array.isArray(value) || value.length > MAX_REPOS) throw new Error(`${path}: expected a short list`);
   return value.map((item, index) => reqString(item, `${path}[${index}]`));
@@ -118,7 +139,7 @@ function parsePad(value: unknown, index: number): ProjectPad {
   assertKeys(
     value,
     ["id", "erp_id", "name", "stage", "level", "pad_color", "position", "repos_label", "hosting_label", "status_label", "action_item", "connected_db_ids", "open_pr_count"],
-    ["repos"],
+    ["repos", "spend_usd", "tokens"],
     path,
   );
   if (!Array.isArray(value.connected_db_ids) || value.connected_db_ids.length > 8) {
@@ -133,7 +154,7 @@ function parsePad(value: unknown, index: number): ProjectPad {
   }
   const color = reqString(value.pad_color, `${path}.pad_color`);
   if (!COLOR.test(color)) throw new Error(`${path}.pad_color: expected #rrggbb`);
-  return {
+  const pad: ProjectPad = {
     id: reqSlug(value.id, `${path}.id`),
     erp_id: reqString(value.erp_id, `${path}.erp_id`),
     name: reqString(value.name, `${path}.name`),
@@ -149,13 +170,15 @@ function parsePad(value: unknown, index: number): ProjectPad {
     open_pr_count: openPr,
     repos: value.repos === undefined ? [] : parseRepos(value.repos, `${path}.repos`),
   };
+  applyUsage(pad, value, path);
+  return pad;
 }
 
 function parseRack(value: unknown, index: number): DatabaseRack {
   const path = `database_racks[${index}]`;
   if (!isRecord(value)) throw new Error(`${path}: expected object`);
-  assertKeys(value, ["id", "name", "engine", "host", "status_label", "level", "position", "action_item"], [], path);
-  return {
+  assertKeys(value, ["id", "name", "engine", "host", "status_label", "level", "position", "action_item"], ["spend_usd", "tokens"], path);
+  const rack: DatabaseRack = {
     id: reqSlug(value.id, `${path}.id`),
     name: reqString(value.name, `${path}.name`),
     engine: reqString(value.engine, `${path}.engine`),
@@ -165,13 +188,15 @@ function parseRack(value: unknown, index: number): DatabaseRack {
     position: reqVec3(value.position, `${path}.position`),
     action_item: nullString(value.action_item, `${path}.action_item`),
   };
+  applyUsage(rack, value, path);
+  return rack;
 }
 
 function parseAgent(value: unknown, index: number): AgentPawn {
   const path = `agents[${index}]`;
   if (!isRecord(value)) throw new Error(`${path}: expected object`);
-  assertKeys(value, ["id", "name", "bot_type", "role", "assigned_pad_id", "state", "status", "waiting_on_samuel", "offset"], [], path);
-  return {
+  assertKeys(value, ["id", "name", "bot_type", "role", "assigned_pad_id", "state", "status", "waiting_on_samuel", "offset"], ["spend_usd", "tokens"], path);
+  const agent: AgentPawn = {
     id: reqSlug(value.id, `${path}.id`),
     name: reqString(value.name, `${path}.name`),
     bot_type: reqString(value.bot_type, `${path}.bot_type`),
@@ -182,6 +207,8 @@ function parseAgent(value: unknown, index: number): AgentPawn {
     waiting_on_samuel: nullString(value.waiting_on_samuel, `${path}.waiting_on_samuel`),
     offset: reqVec2(value.offset, `${path}.offset`),
   };
+  applyUsage(agent, value, path);
+  return agent;
 }
 
 function parseChecks(value: unknown): Checks {

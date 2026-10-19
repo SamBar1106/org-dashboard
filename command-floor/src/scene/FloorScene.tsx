@@ -1,43 +1,63 @@
 import { useMemo, useRef } from "react";
-import { Grid, Html, OrbitControls } from "@react-three/drei";
+import { Grid, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { TOUCH } from "three";
-import { DIMMED_OPACITY, arcId, objectOpacity } from "../model/match";
-import type { FilterId, FloorModel, Selection } from "../model/types";
+import { usePageHidden, useReducedMotion } from "../hooks";
+import { arcId, objectOpacity } from "../model/match";
+import { isRedAlert } from "../model/metrics";
+import type { Selection } from "../model/types";
+import { useDisplayedFloor, useFloor } from "../state/store";
 import { Arc } from "./Arc";
+import { CameraRig } from "./CameraRig";
 import { frameScene } from "./layout";
 import { PadMesh } from "./Pad";
 import { PawnMesh } from "./Pawn";
+import { presentScene } from "./present";
+import { MAX_DPR } from "./quality";
 import { RackMesh } from "./Rack";
+import { VaultMesh } from "./Vault";
 
-interface FloorSceneProps {
-  floor: FloorModel;
-  filter: FilterId;
-  selection: Selection;
-  animate: boolean;
-  rolling: boolean;
-  frameloop: "always" | "demand" | "never";
-  onSelect: (selection: Selection) => void;
-  onFrame: () => void;
-}
+export function FloorScene() {
+  const floor = useDisplayedFloor();
+  const filter = useFloor((state) => state.filter);
+  const query = useFloor((state) => state.query);
+  const hiddenRacks = useFloor((state) => state.hiddenRacks);
+  const selection = useFloor((state) => state.selection);
+  const layers = useFloor((state) => state.layers);
+  const acknowledged = useFloor((state) => state.acknowledged);
+  const rolling = useFloor((state) => state.rolling);
+  const burstArcIds = useFloor((state) => state.burstArcIds);
+  const walkSerial = useFloor((state) => state.walkSerial);
+  const flyToken = useFloor((state) => state.flyToken);
+  const resetToken = useFloor((state) => state.resetToken);
+  const select = useFloor((state) => state.select);
+  const setFramed = useFloor((state) => state.setFramed);
+  const hidden = usePageHidden();
+  const reduce = useReducedMotion();
+  const presented = useMemo(() => presentScene(floor), [floor]);
+  const layout = useMemo(() => frameScene(presented.layoutInput), [presented]);
+  const options = useMemo(() => ({ query, hiddenRackIds: hiddenRacks }), [query, hiddenRacks]);
+  const animate = !hidden && (rolling || !reduce);
+  const frameloop = hidden ? "never" : animate ? "always" : "demand";
+  const vaultOpacity = floor.database_racks.every((rack) => objectOpacity("rack", rack.id, filter, floor, options) < 1) ? 0.2 : 1;
+  const focus = focusOf(selection, presented, layout.meshScale);
+  const selectedPadId = selection.kind === "pad" ? selection.id : selection.kind === "pawn"
+    ? floor.agents.find((agent) => agent.id === selection.id)?.assigned_pad_id ?? null
+    : null;
 
-export function FloorScene({ floor, filter, selection, animate, rolling, frameloop, onSelect, onFrame }: FloorSceneProps) {
-  const layout = useMemo(() => frameScene(floor), [floor]);
-  const vault = layout.vault;
-  const vaultOpacity = floor.database_racks.every((rack) => objectOpacity("rack", rack.id, filter, floor) < 1) ? DIMMED_OPACITY : 1;
   return (
     <Canvas
-      dpr={[1, 1.75]}
+      dpr={[1, MAX_DPR]}
       performance={{ min: 0.5 }}
       frameloop={frameloop}
       camera={{ position: layout.cameraPosition, fov: layout.fov, near: layout.near, far: layout.far }}
       gl={{ antialias: false, alpha: false, stencil: false, powerPreference: "high-performance" }}
       onCreated={({ gl }) => gl.setClearColor("#101012")}
     >
-      <FramePing onFrame={onFrame} />
-      <ambientLight intensity={0.9} />
-      <hemisphereLight args={["#c5d4ea", "#1a1a1e", 0.55]} />
-      <directionalLight position={[4, 10, 6]} intensity={1.45} />
+      <FramePing onFrame={() => setFramed(true)} />
+      <ambientLight intensity={0.85} />
+      <hemisphereLight args={["#c5d4ea", "#1a1a1e", 0.5]} />
+      <directionalLight position={[4, 10, 6]} intensity={1.35} />
       <Grid
         args={[layout.grid.size, layout.grid.size]}
         position={[layout.center[0], 0, layout.center[2]]}
@@ -51,91 +71,107 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
         fadeStrength={1.35}
         infiniteGrid={false}
       />
-      {vault ? (
-        <group>
-          <mesh position={[vault.x, vault.thickness / 2, vault.z]}>
-            <boxGeometry args={[vault.width, vault.thickness, vault.depth]} />
-            <meshStandardMaterial
-              color="#0b2a66"
-              emissive="#123f8a"
-              emissiveIntensity={rolling ? 0.9 : 0.4}
-              roughness={0.32}
-              metalness={0.18}
-              transparent
-              opacity={vaultOpacity}
-              depthWrite={vaultOpacity === 1}
-            />
-          </mesh>
-          <Html
-            position={[vault.x, vault.thickness + layout.meshScale * 0.2, vault.z + vault.depth / 2]}
-            center
-            distanceFactor={layout.labelDistance}
-            zIndexRange={[8, 0]}
-            wrapperClass="cf-html"
-          >
-            <div className="vault-tag" style={{ opacity: vaultOpacity }}>DATA VAULT</div>
-          </Html>
-        </group>
+      {layers.mesh ? (
+        <VaultMesh vault={layout.vault} opacity={vaultOpacity} rolling={rolling} distanceFactor={layout.labelDistance} />
       ) : null}
-      {floor.project_pads.map((pad) =>
-        pad.connected_db_ids.map((rackId) => {
-          const rack = floor.database_racks.find((item) => item.id === rackId);
-          if (!rack) return null;
-          return (
-            <Arc
-              key={arcId(rackId, pad.id)}
-              x1={rack.position.x}
-              y1={rack.position.y + 1.35 * layout.meshScale}
-              z1={rack.position.z}
-              x2={pad.position.x}
-              y2={pad.position.y + 0.4 * layout.meshScale}
-              z2={pad.position.z}
-              color={pad.pad_color}
-              opacity={objectOpacity("arc", arcId(rackId, pad.id), filter, floor)}
-              animate={animate}
-              rolling={rolling}
-              dashSize={layout.dashSize}
-              gapSize={layout.gapSize}
-            />
-          );
-        }),
-      )}
-      {floor.project_pads.map((pad) => (
-        <PadMesh
-          key={pad.id}
-          pad={pad}
-          opacity={objectOpacity("pad", pad.id, filter, floor)}
-          selected={selection.kind === "pad" && selection.id === pad.id}
-          scale={layout.meshScale}
-          labelDistance={layout.labelDistance}
-          onSelect={() => onSelect({ kind: "pad", id: pad.id })}
-        />
-      ))}
-      {floor.database_racks.map((rack) => (
-        <RackMesh
-          key={rack.id}
-          rack={rack}
-          opacity={objectOpacity("rack", rack.id, filter, floor)}
-          selected={selection.kind === "rack" && selection.id === rack.id}
-          scale={layout.meshScale}
-          labelDistance={layout.labelDistance}
-          onSelect={() => onSelect({ kind: "rack", id: rack.id })}
-        />
-      ))}
+      {layers.traces
+        ? floor.project_pads.map((pad) =>
+            pad.connected_db_ids.map((rackId) => {
+              const rackAt = presented.racks.get(rackId);
+              const padAt = presented.pads.get(pad.id);
+              if (!rackAt || !padAt) return null;
+              const id = arcId(rackId, pad.id);
+              return (
+                <Arc
+                  key={id}
+                  x1={rackAt.x}
+                  y1={rackAt.y + 1.35 * layout.meshScale}
+                  z1={rackAt.z}
+                  x2={padAt.x}
+                  y2={padAt.y + 0.4 * layout.meshScale}
+                  z2={padAt.z}
+                  color={pad.pad_color}
+                  opacity={objectOpacity("arc", id, filter, floor, options)}
+                  animate={animate}
+                  rolling={rolling}
+                  dashSize={layout.dashSize}
+                  gapSize={layout.gapSize}
+                  showPacket={layers.telemetry}
+                  hot={burstArcIds.includes(id)}
+                  packetOffset={packetOffset(id)}
+                />
+              );
+            }),
+          )
+        : null}
+      {floor.project_pads.map((pad) => {
+        const at = presented.pads.get(pad.id);
+        if (!at) return null;
+        const alert = isRedAlert("pad", pad.id, floor) && !acknowledged.includes(pad.id);
+        return (
+          <PadMesh
+            key={pad.id}
+            pad={{ ...pad, position: at }}
+            opacity={objectOpacity("pad", pad.id, filter, floor, options)}
+            selected={selection.kind === "pad" && selection.id === pad.id}
+            ring={selectedPadId === pad.id}
+            alert={alert}
+            scale={layout.meshScale}
+            labelDistance={layout.labelDistance}
+            showMesh={layers.mesh}
+            showAlert={layers.telemetry}
+            onSelect={() => select({ kind: "pad", id: pad.id })}
+          />
+        );
+      })}
+      {floor.database_racks.map((rack) => {
+        const at = presented.racks.get(rack.id);
+        if (!at) return null;
+        const alert = isRedAlert("rack", rack.id, floor) && !acknowledged.includes(rack.id);
+        const radial = Math.hypot(at.x, at.z) || 1;
+        return (
+          <RackMesh
+            key={rack.id}
+            rack={{ ...rack, position: at }}
+            opacity={objectOpacity("rack", rack.id, filter, floor, options)}
+            selected={selection.kind === "rack" && selection.id === rack.id}
+            alert={alert}
+            scale={layout.meshScale}
+            labelDistance={layout.labelDistance}
+            labelOffset={[(at.x / radial) * 1.4, (at.z / radial) * 1.4]}
+            showMesh={layers.mesh}
+            showAlert={layers.telemetry}
+            onSelect={() => select({ kind: "rack", id: rack.id })}
+          />
+        );
+      })}
       {floor.agents.map((agent) => {
+        const at = presented.agents.get(agent.id);
+        if (!at) return null;
         const pad = floor.project_pads.find((item) => item.id === agent.assigned_pad_id);
+        const rackId = pad?.connected_db_ids[0];
+        const goal = (rackId ? presented.racks.get(rackId) : undefined) ?? presented.vault;
+        const alert = isRedAlert("pawn", agent.id, floor) && !acknowledged.includes(agent.id);
         return (
           <PawnMesh
             key={agent.id}
             agent={agent}
-            x={(pad?.position.x ?? 0) + agent.offset.x}
-            y={pad?.position.y ?? 0}
-            z={(pad?.position.z ?? 0) + agent.offset.z}
-            opacity={objectOpacity("pawn", agent.id, filter, floor)}
+            homeX={at.x}
+            homeY={at.y}
+            homeZ={at.z}
+            goalX={goal.x}
+            goalY={goal.y}
+            goalZ={goal.z}
+            walkSerial={walkSerial[agent.id] ?? 0}
+            opacity={objectOpacity("pawn", agent.id, filter, floor, options)}
             animate={animate}
             selected={selection.kind === "pawn" && selection.id === agent.id}
+            alert={alert}
             scale={layout.meshScale}
-            onSelect={() => onSelect({ kind: "pawn", id: agent.id })}
+            labelDistance={layout.labelDistance}
+            showMesh={layers.mesh}
+            showAlert={layers.telemetry}
+            onSelect={() => select({ kind: "pawn", id: agent.id })}
           />
         );
       })}
@@ -151,8 +187,46 @@ export function FloorScene({ floor, filter, selection, animate, rolling, framelo
         target={layout.center}
         touches={{ ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }}
       />
+      <CameraRig
+        homePosition={layout.cameraPosition}
+        homeTarget={layout.center}
+        focus={focus}
+        flyToken={flyToken}
+        resetToken={resetToken}
+      />
     </Canvas>
   );
+}
+
+function focusOf(
+  selection: Selection,
+  presented: ReturnType<typeof presentScene>,
+  lift: number,
+): [number, number, number] | null {
+  switch (selection.kind) {
+    case "pad": {
+      const at = presented.pads.get(selection.id);
+      return at ? [at.x, at.y + lift, at.z] : null;
+    }
+    case "rack": {
+      const at = presented.racks.get(selection.id);
+      return at ? [at.x, at.y + lift, at.z] : null;
+    }
+    case "pawn": {
+      const at = presented.agents.get(selection.id);
+      return at ? [at.x, at.y + lift, at.z] : null;
+    }
+    default: {
+      const neverKind: never = selection;
+      return neverKind;
+    }
+  }
+}
+
+function packetOffset(id: string): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i += 1) hash = (hash * 33 + id.charCodeAt(i)) >>> 0;
+  return (hash % 100) / 100;
 }
 
 function FramePing({ onFrame }: { onFrame: () => void }) {

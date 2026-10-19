@@ -3,4 +3,5 @@
 
 interface ImportMetaEnv {
   readonly VITE_COMMAND_FLOOR_URL?: string;
+  readonly VITE_COMMAND_FLOOR_LOGIN_URL?: string;
 }

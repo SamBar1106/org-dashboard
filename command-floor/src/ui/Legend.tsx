@@ -1,16 +1,29 @@
 import { levelTone } from "../model/inspector";
-import type { DatabaseRack } from "../model/types";
+import { useDisplayedFloor, useFloor } from "../state/store";
 
-export function Legend({ racks }: { racks: DatabaseRack[] }) {
+export function Legend() {
+  const floor = useDisplayedFloor();
+  const hiddenRacks = useFloor((state) => state.hiddenRacks);
+  const toggleRack = useFloor((state) => state.toggleRack);
   return (
-    <p className="legend">
+    <div className="legend">
       <span className="legend-label">DATA VAULT</span>
-      {racks.map((rack) => (
-        <span key={rack.id} className="legend-item">
-          <i className={`dot tone-${levelTone(rack.level)}`} />
-          {rack.name}
-        </span>
-      ))}
-    </p>
+      {floor.database_racks.map((rack) => {
+        const shown = !hiddenRacks.includes(rack.id);
+        return (
+          <button
+            key={rack.id}
+            type="button"
+            className="legend-item"
+            data-testid={`legend-${rack.id}`}
+            aria-pressed={shown}
+            onClick={() => toggleRack(rack.id)}
+          >
+            <i className={`dot tone-${levelTone(rack.level)}`} />
+            {rack.name}
+          </button>
+        );
+      })}
+    </div>
   );
 }

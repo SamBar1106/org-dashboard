@@ -45,6 +45,7 @@ async function expectNoHorizontalScroll(page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.clear());
   await page.goto("./");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Virtual Command Floor");
   await expect(page.getByTestId("inspector-title")).toHaveText("Sam ERP App");
@@ -90,7 +91,7 @@ test("each filter dims some objects and a pad click updates the inspector", asyn
   await expect(page.locator(".meta")).toContainText("En progreso");
   await expect(page.locator(".meta")).toContainText("Level:");
 
-  await page.getByTestId("rack-label-odoo").click();
+  await page.getByTestId("rack-label-odoo").evaluate((element: HTMLButtonElement) => element.click());
   await expect(page.getByTestId("inspector-title")).toHaveText("Odoo");
 
   await page.locator("nav.sr-only button", { hasText: "Web Dev" }).evaluate((element: HTMLButtonElement) => element.click());
@@ -110,13 +111,86 @@ test("no horizontal scroll at iPad portrait, iPad landscape, and 1280", async ({
   for (const viewport of viewports) {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.waitForTimeout(250);
+    await expect(page.getByTestId("edit-floor")).toBeVisible();
     await expectNoHorizontalScroll(page);
     await page.screenshot({ path: `${shots}/command-floor-${viewport.name}.png` });
   }
+
+  await page.setViewportSize({ width: 1024, height: 1366 });
+  await expect(page.getByTestId("nav-menu")).toBeVisible();
+  await page.getByTestId("nav-menu").click();
+  await expect(page.getByTestId("nav-approvals")).toBeVisible();
+  await page.screenshot({ path: `${shots}/command-floor-ipad-drawer.png` });
+  await page.getByLabel("Close menu").click();
+
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await expect(page.getByTestId("nav-menu")).toHaveCount(0);
+  await expect(page.getByTestId("nav-home")).toBeVisible();
+  await page.getByTestId("edit-floor").click();
+  await expect(page.getByTestId("edit-panel")).toBeVisible();
+  await page.getByTestId("edit-panel").scrollIntoViewIfNeeded();
+  await expectNoHorizontalScroll(page);
+  await page.screenshot({ path: `${shots}/command-floor-desktop-edit.png` });
+
+  await page.setViewportSize({ width: 1024, height: 1366 });
+  await expect(page.getByTestId("edit-panel")).toBeVisible();
+  await expect(page.getByTestId("edit-floor")).toBeVisible();
+  await page.getByTestId("edit-panel").scrollIntoViewIfNeeded();
+  await expectNoHorizontalScroll(page);
+  await page.screenshot({ path: `${shots}/command-floor-ipad-edit.png` });
+
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.getByTestId("filter-red").click();
   await page.waitForTimeout(200);
   await page.screenshot({ path: `${shots}/command-floor-desktop-red-filter.png` });
+});
+
+test("header badges filter, legend arcs toggle, and red labels stop shaking after a click", async ({ page }) => {
+  await page.getByTestId("pill-red").click();
+  await expect(page.getByTestId("filter-red")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByTestId("pad-label-mge-triage-hub")).toHaveAttribute("data-alert", "true");
+  await page.getByTestId("pad-label-mge-triage-hub").click();
+  await expect(page.getByTestId("pad-label-mge-triage-hub")).toHaveAttribute("data-alert", "false");
+  await expect(page.getByTestId("inspector-title")).toHaveText("MGE Triage Hub");
+
+  await page.getByTestId("filter-all").click();
+  await page.getByTestId("legend-odoo").click();
+  await expect(page.locator("[data-testid=opacity-map] [data-id='odoo::sam-erp']")).toHaveAttribute("data-opacity", "0");
+  await page.getByTestId("legend-odoo").click();
+  await expect(page.locator("[data-testid=opacity-map] [data-id='odoo::sam-erp']")).toHaveAttribute("data-opacity", "1");
+});
+
+test("public build keeps private actions locked and sound off", async ({ page }) => {
+  const seed = (await (await page.request.get("/org-dashboard/data/command-floor.json")).json()) as Seed;
+  const counts = countsOf(seed);
+  const activePads = seed.project_pads.filter((pad) => pad.level !== "IDLE").length;
+  await expect(page.getByTestId("deck-chip")).toHaveText(`COMMAND DECK • ${activePads} Active Pads • ${seed.database_racks.length} Data Hubs`);
+  await expect(page.getByTestId("brand")).toContainText("Orchestrator");
+  await expect(page.getByTestId("brand")).toContainText("Division 4");
+  await expect(page.getByTestId("nav-badge-approvals")).toHaveText(String(counts.waiting));
+  await expect(page.getByTestId("lane-status")).toContainText("Lanes Active");
+  await expect(page.getByTestId("avatar")).toHaveText("S");
+  await expect(page.getByTestId("samuel-ai")).toHaveText("Samuel + AI");
+  await expect(page.getByTestId("open-repo")).toHaveAttribute("href", /^https:\/\//);
+  await expect(page.getByTestId("mark-resolved")).toBeDisabled();
+  await expect(page.getByTestId("dispatch-agent")).toBeDisabled();
+  await expect(page.getByTestId("approve-run")).toBeDisabled();
+  await expect(page.getByTestId("private-note")).toHaveText("needs private backend");
+  await expect(page.getByTestId("mode-live")).toBeDisabled();
+  await expect(page.getByTestId("sound-toggle")).toHaveAttribute("aria-pressed", "false");
+  await expect(page.getByTestId("edit-floor")).toBeVisible();
+
+  await page.getByTestId("live-ping").click();
+  await expect(page.getByTestId("rollup-note")).toContainText("Live ping");
+});
+
+test("edit floor adds a desk from the data already on screen", async ({ page }) => {
+  await page.getByTestId("edit-floor").click();
+  await expect(page.getByTestId("edit-panel")).toBeVisible();
+  await page.getByTestId("desk-name").fill("Relay Desk");
+  await page.getByTestId("add-desk").click();
+  await expect(page.getByTestId("filter-all")).toHaveText(/All Ecosystem \(29\)/);
+  await expect(page.getByTestId("pad-label-relay-desk")).toBeVisible();
 });
 
 test("the live org page still renders", async ({ page }) => {
