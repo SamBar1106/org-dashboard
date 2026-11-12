@@ -79,28 +79,7 @@
     "Grok assistant; triggers routines"
    ],
    "flags": [],
-   "agy_usage": {
-    "runs": 10,
-    "last": {
-     "task": "TASK-015",
-     "status": "SUCCESS",
-     "ts": 1791756830,
-     "duration_s": 603.2,
-     "in": 300645,
-     "out": 85829,
-     "thinking": 80384,
-     "cached": 2197930,
-     "total": 386474
-    },
-    "total": {
-     "in": 2523079,
-     "out": 673876,
-     "thinking": 567692,
-     "cached": 23593031,
-     "total": 3196955,
-     "duration_s": 3746.2
-    }
-   }
+   "agy_usage": null
   },
   {
    "id": "executive",
@@ -240,28 +219,7 @@
     "owner: Division 4"
    ],
    "flags": [],
-   "agy_usage": {
-    "runs": 2,
-    "last": {
-     "task": "TASK-013",
-     "status": "SUCCESS",
-     "ts": 1791755349,
-     "duration_s": 564.6,
-     "in": 361272,
-     "out": 74351,
-     "thinking": 62885,
-     "cached": 4866864,
-     "total": 435623
-    },
-    "total": {
-     "in": 722544,
-     "out": 148702,
-     "thinking": 125770,
-     "cached": 9733728,
-     "total": 871246,
-     "duration_s": 1129.2
-    }
-   }
+   "agy_usage": null
   },
   {
    "id": "bookkeeper-expert",
@@ -287,28 +245,7 @@
     "owner: Division 4"
    ],
    "flags": [],
-   "agy_usage": {
-    "runs": 4,
-    "last": {
-     "task": "TASK-006",
-     "status": "SUCCESS",
-     "ts": 1790658337,
-     "duration_s": 280.8,
-     "in": 278122,
-     "out": 83746,
-     "thinking": 75284,
-     "cached": 2105876,
-     "total": 361868
-    },
-    "total": {
-     "in": 2582090,
-     "out": 405493,
-     "thinking": 280753,
-     "cached": 23272967,
-     "total": 2987583,
-     "duration_s": 1733.6
-    }
-   }
+   "agy_usage": null
   },
   {
    "id": "tax-engine",
@@ -390,28 +327,7 @@
     "runs via scripts/run_bot.sh"
    ],
    "flags": [],
-   "agy_usage": {
-    "runs": 1,
-    "last": {
-     "task": "TASK-016",
-     "status": "NO_CHANGES",
-     "ts": 1791760160,
-     "duration_s": 2683.0,
-     "in": 1011144,
-     "out": 393410,
-     "thinking": 380967,
-     "cached": 15564555,
-     "total": 1404554
-    },
-    "total": {
-     "in": 1011144,
-     "out": 393410,
-     "thinking": 380967,
-     "cached": 15564555,
-     "total": 1404554,
-     "duration_s": 2683.0
-    }
-   }
+   "agy_usage": null
   },
   {
    "id": "brand-marketing",
